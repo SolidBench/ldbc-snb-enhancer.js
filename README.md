@@ -103,6 +103,24 @@ Generate additional contents for existing posts.
 Parameters:
 * `"EnhancementHandlerPostContents:_chance"`: The chance for post content to be generated. The number of new post contents will be the number of posts times this chance, where contents are randomly assigned to posts. @range {double}
 
+#### Post Authors Handler
+
+Generate additional authors for existing posts.
+
+```json
+{
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPostAuthors",
+      "EnhancementHandlerPostAuthors:_chance": 0.3
+    }
+  ]
+}
+```
+
+Parameters:
+* `"EnhancementHandlerPostAuthors:_chance"`: The chance for a post author to be generated. The number of new post authors will be the number of posts times this chance, where authors are randomly assigned to posts.
+
 ## License
 
 This software is written by [Ruben Taelman](http://rubensworks.net/).
