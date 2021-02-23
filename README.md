@@ -87,10 +87,10 @@ Parameters:
 
 Generated shape:
 ```turtle
-<http://www.ldbc.eu/ldbc_socialnet/1.0/data/post-fake2045> a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post>;
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "2045";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/fake> "true";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000021990232555524>;
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/post-fake2967> a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "2967";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000004398046512167>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000010995116283441>;
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/creationDate> "2021-02-22T10:39:31.595Z";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP> "200.200.200.200";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/browserUsed> "Firefox";
@@ -121,18 +121,9 @@ Parameters:
 
 Generated shape:
 ```turtle
-<http://www.ldbc.eu/ldbc_socialnet/1.0/data/post-fake2045> a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post>;
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "2045";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/fake> "true";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000021990232555524>;
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/creationDate> "2021-02-22T10:39:31.595Z";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP> "200.200.200.200";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/browserUsed> "Firefox";
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000206158430485> <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "962072675046";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/content> "Tomatoes are blue";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/length> "17";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/language> "en";
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locatedIn> <http://dbpedia.org/resource/Belgium>;
-    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasTag> <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Georges_Bizet>.
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000017592186048516>.
 ```
 
 #### Post Authors Handler
@@ -152,6 +143,13 @@ Generate additional authors for existing posts.
 
 Parameters:
 * `"EnhancementHandlerPostAuthors:_chance"`: The chance for a post author to be generated. The number of new post authors will be the number of posts times this chance, where authors are randomly assigned to posts.
+
+Generated shape:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000962072675046> <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "962072675046";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000006597069770017>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000019791209301543>.
+```
 
 ## License
 

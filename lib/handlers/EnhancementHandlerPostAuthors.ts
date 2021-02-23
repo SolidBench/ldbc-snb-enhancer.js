@@ -26,6 +26,7 @@ export class EnhancementHandlerPostAuthors implements IEnhancementHandler {
       const personMalicious = context.dataSelector.selectArrayElement(context.people);
       const resource = context.rdfObjectLoader.createCompactedResource({
         '@id': post.value,
+        'snvoc:id': Number.parseInt(post.value.slice(post.value.lastIndexOf('post') + 4), 10),
         'snvoc:hasCreator': person,
         'snvoc:hasMaliciousCreator': personMalicious,
       });

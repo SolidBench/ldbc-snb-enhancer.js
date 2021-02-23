@@ -32,12 +32,12 @@ describe('EnhancementHandlerPostAuthors', () => {
         DF.namedNode('ex:per6'),
       ],
       posts: [
-        DF.namedNode('ex:p1'),
-        DF.namedNode('ex:p2'),
-        DF.namedNode('ex:p3'),
-        DF.namedNode('ex:p4'),
-        DF.namedNode('ex:p5'),
-        DF.namedNode('ex:p6'),
+        DF.namedNode('ex:post001'),
+        DF.namedNode('ex:post002'),
+        DF.namedNode('ex:post003'),
+        DF.namedNode('ex:post004'),
+        DF.namedNode('ex:post005'),
+        DF.namedNode('ex:post006'),
       ],
     };
     await context.rdfObjectLoader.context;
@@ -56,12 +56,14 @@ describe('EnhancementHandlerPostAuthors', () => {
       stream.end();
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
-          '@id': `ex:p1`,
+          '@id': `ex:post001`,
+          'snvoc:id': '"1"',
           'snvoc:hasCreator': `ex:per2`,
           'snvoc:hasMaliciousCreator': 'ex:per3',
         },
         {
-          '@id': `ex:p4`,
+          '@id': `ex:post004`,
+          'snvoc:id': '"4"',
           'snvoc:hasCreator': `ex:per5`,
           'snvoc:hasMaliciousCreator': 'ex:per6',
         },
