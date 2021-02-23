@@ -18,9 +18,75 @@ $ yarn global add ldbc-snb-enhancer
 
 ## Usage
 
-TODO
+### Invoke from the command line
+
+This tool can be used on the command line as `ldbc-snb-enhancer`,
+which takes as single parameter the path to a config file:
+
+```bash
+$ ldbc-snb-enhancer path/to/config.json
+```
+
+### Config file
+
+The config file that should be passed to the command line tool has the following JSON structure:
+
+```json
+{
+  "@context": "https://linkedsoftwaredependencies.org/bundles/npm/ldbc-snb-enhancer/^1.0.0/components/context.jsonld",
+  "@id": "urn:ldbc-snb-enhancer:default",
+  "@type": "Enhancer",
+  "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
+  "Enhancer:_options_destinationPath": "path/to/social_network_auxiliary.ttl",
+  "Enhancer:_options_logger": {
+    "@type": "LoggerStdout"
+  },
+  "Enhancer:_options_dataSelector": {
+    "@type": "DataSelectorRandom",
+    "DataSelectorRandom:_seed": 12345
+  },
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPosts",
+      "EnhancementHandlerPosts:_chance": 0.3
+    }
+  ]
+}
+```
+
+The important parts in this config file are:
+* `"Enhancer:_options_personsPath"`: Path to the persons output file of [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen).
+* `"Enhancer:_options_destinationPath"`: Path of the destination file to create.
+* `"Enhancer:_options_logger"`: An optional logger for tracking the generation process. (`LoggerStdout` prints to standard output)
+* `"Enhancer:_options_dataSelector"`: A strategy for selecting values from a collection. (`DataSelectorRandom` selects random values based on a given seed)
+* `"Enhancer:_options_handlers"`: An array of enhancement handlers, which are strategies for generating data.
+
+## Configure
+
+### Handlers
+
+The following handlers can be configured.
+
+#### Posts Handler
+
+Generate posts and assign them to existing people.
+
+```json
+{
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPosts",
+      "EnhancementHandlerPosts:_chance": 0.3
+    }
+  ]
+}
+```
+
+Parameters:
+* `"EnhancementHandlerPosts:_chance"`: The chance for posts to be generated. The number of posts will be the number of people times this chance, where people are randomly assigned to posts.
 
 ## License
+
 This software is written by [Ruben Taelman](http://rubensworks.net/).
 
 This code is released under the [MIT license](http://opensource.org/licenses/MIT).
