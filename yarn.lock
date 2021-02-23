@@ -4832,6 +4832,16 @@ rdf-literal@^1.2.0:
     "@types/rdf-js" "^4.0.0"
     rdf-data-factory "^1.0.1"
 
+rdf-object@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/rdf-object/-/rdf-object-1.10.0.tgz#9d46d911bcbb89593d5ef582b1dcd59fb426e99c"
+  integrity sha512-FJ/PhF9zPrPkLTYFJ/pfpFzPxbBvARP1hVAG9TB7VRngWIGcvscs7RD6jjm+7dfq295Ibb3G3ZdBZf+U0klCXw==
+  dependencies:
+    jsonld-context-parser "^2.0.2"
+    rdf-data-factory "^1.0.3"
+    rdf-string "^1.5.0"
+    streamify-array "^1.0.1"
+
 rdf-object@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/rdf-object/-/rdf-object-1.8.0.tgz#f7b6c3c997d87d72a5a5651c6bb7ef63d6e0af24"
