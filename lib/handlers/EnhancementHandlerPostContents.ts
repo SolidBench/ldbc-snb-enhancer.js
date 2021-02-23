@@ -22,9 +22,11 @@ export class EnhancementHandlerPostContents implements IEnhancementHandler {
     const contentLength = this.chance * context.posts.length;
     for (let i = 0; i < contentLength; i++) {
       const post = context.dataSelector.selectArrayElement(context.posts);
+      const personMalicious = context.dataSelector.selectArrayElement(context.people);
       const resource = context.rdfObjectLoader.createCompactedResource({
         '@id': post.value,
-        'snvoc:content': '"Tomatoes are blue"^^snvoc:fake',
+        'snvoc:content': '"Tomatoes are blue"',
+        'snvoc:hasMaliciousCreator': personMalicious,
       });
       for (const quad of resource.toQuads()) {
         writeStream.write(quad);

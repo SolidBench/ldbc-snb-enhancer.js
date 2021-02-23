@@ -22,12 +22,13 @@ export class EnhancementHandlerPosts implements IEnhancementHandler {
     const postCount = this.chance * context.people.length;
     for (let i = 0; i < postCount; i++) {
       const person = context.dataSelector.selectArrayElement(context.people);
+      const personMalicious = context.dataSelector.selectArrayElement(context.people);
       const resource = context.rdfObjectLoader.createCompactedResource({
         '@id': `sn:post-fake${i}`,
         type: 'snvoc:Post',
         'snvoc:id': i,
-        'snvoc:fake': '"true"',
         'snvoc:hasCreator': person,
+        'snvoc:hasMaliciousCreator': personMalicious,
         'snvoc:creationDate': '"2021-02-22T10:39:31.595Z"',
         'snvoc:locationIP': '"200.200.200.200"',
         'snvoc:browserUsed': '"Firefox"',

@@ -23,7 +23,12 @@ describe('EnhancementHandlerPostContents', () => {
     context = {
       rdfObjectLoader,
       dataSelector: new DataSelectorSequential(),
-      people: [],
+      people: [
+        DF.namedNode('ex:per1'),
+        DF.namedNode('ex:per2'),
+        DF.namedNode('ex:per3'),
+        DF.namedNode('ex:per4'),
+      ],
       posts: [
         DF.namedNode('ex:p1'),
         DF.namedNode('ex:p2'),
@@ -48,11 +53,13 @@ describe('EnhancementHandlerPostContents', () => {
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': `ex:p1`,
-          'snvoc:content': '"Tomatoes are blue"^^snvoc:fake',
+          'snvoc:content': '"Tomatoes are blue"',
+          'snvoc:hasMaliciousCreator': 'ex:per2',
         },
         {
-          '@id': `ex:p2`,
-          'snvoc:content': '"Tomatoes are blue"^^snvoc:fake',
+          '@id': `ex:p3`,
+          'snvoc:content': '"Tomatoes are blue"',
+          'snvoc:hasMaliciousCreator': 'ex:per4',
         },
       ]).flatMap(resource => resource.toQuads()));
     });

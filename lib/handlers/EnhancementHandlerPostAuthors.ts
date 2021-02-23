@@ -23,9 +23,11 @@ export class EnhancementHandlerPostAuthors implements IEnhancementHandler {
     for (let i = 0; i < contentLength; i++) {
       const post = context.dataSelector.selectArrayElement(context.posts);
       const person = context.dataSelector.selectArrayElement(context.people);
+      const personMalicious = context.dataSelector.selectArrayElement(context.people);
       const resource = context.rdfObjectLoader.createCompactedResource({
         '@id': post.value,
         'snvoc:hasCreator': person,
+        'snvoc:hasMaliciousCreator': personMalicious,
       });
       for (const quad of resource.toQuads()) {
         writeStream.write(quad);

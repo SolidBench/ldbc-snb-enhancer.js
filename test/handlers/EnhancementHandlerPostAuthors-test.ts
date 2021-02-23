@@ -28,12 +28,16 @@ describe('EnhancementHandlerPostAuthors', () => {
         DF.namedNode('ex:per2'),
         DF.namedNode('ex:per3'),
         DF.namedNode('ex:per4'),
+        DF.namedNode('ex:per5'),
+        DF.namedNode('ex:per6'),
       ],
       posts: [
         DF.namedNode('ex:p1'),
         DF.namedNode('ex:p2'),
         DF.namedNode('ex:p3'),
         DF.namedNode('ex:p4'),
+        DF.namedNode('ex:p5'),
+        DF.namedNode('ex:p6'),
       ],
     };
     await context.rdfObjectLoader.context;
@@ -54,10 +58,12 @@ describe('EnhancementHandlerPostAuthors', () => {
         {
           '@id': `ex:p1`,
           'snvoc:hasCreator': `ex:per2`,
+          'snvoc:hasMaliciousCreator': 'ex:per3',
         },
         {
-          '@id': `ex:p3`,
-          'snvoc:hasCreator': `ex:per4`,
+          '@id': `ex:p4`,
+          'snvoc:hasCreator': `ex:per5`,
+          'snvoc:hasMaliciousCreator': 'ex:per6',
         },
       ]).flatMap(resource => resource.toQuads()));
     });
