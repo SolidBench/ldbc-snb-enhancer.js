@@ -17,6 +17,7 @@ export class Enhancer {
   public static readonly CONTEXT_LDBC_SNB = require('./context-ldbc-snb.json');
 
   private readonly personsPath: string;
+  private readonly activitiesPath: string;
   private readonly destinationPath: string;
   private readonly dataSelector: IDataSelector;
   private readonly handlers: IEnhancementHandler[];
@@ -26,6 +27,7 @@ export class Enhancer {
 
   public constructor(options: IEnhancerOptions) {
     this.personsPath = options.personsPath;
+    this.activitiesPath = options.activitiesPath;
     this.destinationPath = options.destinationPath;
     this.dataSelector = options.dataSelector;
     this.handlers = options.handlers;
@@ -49,12 +51,15 @@ export class Enhancer {
     rdfSerializer.serialize(writeStream, { contentType: 'text/turtle' }).pipe(fileStream);
 
     // Prepare context
-    this.logger?.log('Reading background data');
+    this.logger?.log('Reading background data: people');
     const people = await this.extractPeople();
+    this.logger?.log('Reading background data: activities');
+    const posts = await this.extractPosts();
     const context: IEnhancementContext = {
       rdfObjectLoader: this.rdfObjectLoader,
       dataSelector: this.dataSelector,
       people,
+      posts,
     };
 
     // Generate data
@@ -89,6 +94,28 @@ export class Enhancer {
       });
     });
   }
+
+  public extractPosts(): Promise<RDF.NamedNode[]> {
+    return new Promise<RDF.NamedNode[]>((resolve, reject) => {
+      // Prepare RDF terms to compare with
+      const termType = this.rdfObjectLoader.createCompactedResource('rdf:type').term;
+      const termPost = this.rdfObjectLoader.createCompactedResource('snvoc:Post').term;
+
+      const posts: RDF.NamedNode[] = [];
+      const stream = rdfParser.parse(fs.createReadStream(this.activitiesPath), { path: this.personsPath });
+      stream.on('error', reject);
+      stream.on('data', (quad: RDF.Quad) => {
+        if (quad.subject.termType === 'NamedNode' &&
+          quad.predicate.equals(termType) &&
+          quad.object.equals(termPost)) {
+          posts.push(quad.subject);
+        }
+      });
+      stream.on('end', () => {
+        resolve(posts);
+      });
+    });
+  }
 }
 
 export interface IEnhancerOptions {
@@ -96,6 +123,10 @@ export interface IEnhancerOptions {
    * Path to an LDBC SNB RDF persons dataset file.
    */
   personsPath: string;
+  /**
+   * Path to an LDBC SNB RDF activities dataset file.
+   */
+  activitiesPath: string;
   /**
    * Path to the output destination file.
    */

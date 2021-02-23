@@ -1,3 +1,4 @@
+export * from './lib/handlers/EnhancementHandlerPostContents';
 export * from './lib/handlers/EnhancementHandlerPosts';
 export * from './lib/handlers/IEnhancementContext';
 export * from './lib/handlers/IEnhancementHandler';

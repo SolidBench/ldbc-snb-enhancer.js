@@ -3,6 +3,7 @@
   "@id": "urn:ldbc-snb-enhancer:default",
   "@type": "Enhancer",
   "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
+  "Enhancer:_options_activitiesPath": "path/to/social_network_activity_0_0.ttl",
   "Enhancer:_options_destinationPath": "path/to/social_network_auxiliary.ttl",
   "Enhancer:_options_logger": {
     "@type": "LoggerStdout"
@@ -15,6 +16,10 @@
     {
       "@type": "EnhancementHandlerPosts",
       "EnhancementHandlerPosts:_chance": 0.3
+    },
+    {
+      "@type": "EnhancementHandlerPostContents",
+      "EnhancementHandlerPostContents:_chance": 0.1
     }
   ]
 }

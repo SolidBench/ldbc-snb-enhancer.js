@@ -85,6 +85,24 @@ Generate posts and assign them to existing people.
 Parameters:
 * `"EnhancementHandlerPosts:_chance"`: The chance for posts to be generated. The number of posts will be the number of people times this chance, where people are randomly assigned to posts.
 
+#### Post Contents Handler
+
+Generate additional contents for existing posts.
+
+```json
+{
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPostContents",
+      "EnhancementHandlerPostContents:_chance": 0.3
+    }
+  ]
+}
+```
+
+Parameters:
+* `"EnhancementHandlerPostContents:_chance"`: The chance for post content to be generated. The number of new post contents will be the number of posts times this chance, where contents are randomly assigned to posts. @range {double}
+
 ## License
 
 This software is written by [Ruben Taelman](http://rubensworks.net/).
