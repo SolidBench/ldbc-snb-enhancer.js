@@ -30,6 +30,7 @@ describe('EnhancementHandlerPosts', () => {
         DF.namedNode('ex:p4'),
       ],
       posts: [],
+      cities: [],
     };
     await context.rdfObjectLoader.context;
   });

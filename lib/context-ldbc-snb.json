@@ -6,5 +6,7 @@
 
   "snvoc": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/",
 
-  "sn": "http://www.ldbc.eu/ldbc_socialnet/1.0/data/"
+  "sn": "http://www.ldbc.eu/ldbc_socialnet/1.0/data/",
+
+  "dbpedia-owl": "http://dbpedia.org/ontology/"
 }

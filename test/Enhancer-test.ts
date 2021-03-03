@@ -47,12 +47,14 @@ describe('Enhancer', () => {
     enhancer = new Enhancer({
       personsPath: 'source-persons.ttl',
       activitiesPath: 'source-activities.ttl',
+      staticPath: 'source-static.ttl',
       destinationPath: 'destination.ttl',
       dataSelector: new DataSelectorSequential(),
       handlers,
     });
     files['source-persons.ttl'] = `<ex:s> <ex:p> <ex:o>.`;
     files['source-activities.ttl'] = `<ex:s> <ex:p> <ex:o>.`;
+    files['source-static.ttl'] = `<ex:s> <ex:p> <ex:o>.`;
   });
 
   describe('generate', () => {
@@ -67,6 +69,10 @@ sn:pers00000000000000001129 rdf:type snvoc:Person .`;
 @prefix sn: <http://www.ldbc.eu/ldbc_socialnet/1.0/data/> .
 sn:post00000000618475290624 rdf:type snvoc:Post .
 sn:post00000000000000000003 rdf:type snvoc:Post .`;
+      files['source-static.ttl'] = `@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
+<http://dbpedia.org/resource/Pondicherry> rdf:type dbpedia-owl:City .
+<http://dbpedia.org/resource/Rewari> rdf:type dbpedia-owl:City .`;
     });
 
     it('should run all handlers', async() => {
@@ -82,6 +88,10 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        cities: [
+          expect.anything(),
+          expect.anything(),
+        ],
       };
       expect(handlers[0].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
       expect(handlers[1].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
@@ -94,6 +104,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
       enhancer = new Enhancer({
         personsPath: 'source-persons.ttl',
         activitiesPath: 'source-activities.ttl',
+        staticPath: 'source-static.ttl',
         destinationPath: 'destination.ttl',
         dataSelector: new DataSelectorSequential(),
         handlers,
@@ -112,11 +123,15 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        cities: [
+          expect.anything(),
+          expect.anything(),
+        ],
       };
       expect(handlers[0].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
       expect(handlers[1].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
 
-      expect(logger.log).toHaveBeenCalledTimes(7);
+      expect(logger.log).toHaveBeenCalledTimes(8);
     });
   });
 
@@ -203,6 +218,45 @@ sn:bla rdf:type snvoc:other .`;
       expect(await enhancer.extractPosts()).toEqualRdfTermArray([
         DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000618475290624'),
         DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000000000000003'),
+      ]);
+    });
+  });
+
+  describe('extractCities', () => {
+    beforeEach(async() => {
+      await (<any> enhancer).rdfObjectLoader.context;
+    });
+
+    it('should handle a dummy file', async() => {
+      expect(await enhancer.extractCities()).toEqual([]);
+    });
+
+    it('should handle an empty file', async() => {
+      files['source-static.ttl'] = '';
+      expect(await enhancer.extractCities()).toEqual([]);
+    });
+
+    it('should reject on an erroring stream', async() => {
+      delete files['source-static.ttl'];
+      await expect(enhancer.extractCities()).rejects.toThrow();
+    });
+
+    it('should handle a valid file', async() => {
+      files['source-static.ttl'] = `@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix snvoc: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
+@prefix sn: <http://www.ldbc.eu/ldbc_socialnet/1.0/data/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+<http://dbpedia.org/resource/Pondicherry> rdf:type dbpedia-owl:City .
+<http://dbpedia.org/resource/Rewari> rdf:type dbpedia-owl:City .
+<http://dbpedia.org/resource/Rewari> foaf:name "Rewari" .
+<http://dbpedia.org/resource/Rewari> snvoc:id "112"^^xsd:int .
+<http://dbpedia.org/resource/Rewari> snvoc:isPartOf <http://dbpedia.org/resource/India> .
+sn:bla rdf:type snvoc:other .`;
+      expect(await enhancer.extractCities()).toEqualRdfTermArray([
+        DF.namedNode('http://dbpedia.org/resource/Pondicherry'),
+        DF.namedNode('http://dbpedia.org/resource/Rewari'),
       ]);
     });
   });

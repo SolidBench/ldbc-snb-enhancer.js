@@ -39,6 +39,7 @@ describe('EnhancementHandlerPostAuthors', () => {
         DF.namedNode('ex:post005'),
         DF.namedNode('ex:post006'),
       ],
+      cities: [],
     };
     await context.rdfObjectLoader.context;
   });

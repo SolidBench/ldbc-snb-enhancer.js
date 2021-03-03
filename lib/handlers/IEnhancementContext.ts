@@ -23,4 +23,8 @@ export interface IEnhancementContext {
    * An array of IRIs of all posts in the dataset.
    */
   posts: RDF.NamedNode[];
+  /**
+   * An array of IRIs of all cities in the dataset.
+   */
+  cities: RDF.NamedNode[];
 }

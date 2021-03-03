@@ -30,6 +30,12 @@ describe('EnhancementHandlerPersonNames', () => {
         DF.namedNode('ex:per4'),
       ],
       posts: [],
+      cities: [
+        DF.namedNode('ex:cit1'),
+        DF.namedNode('ex:cit2'),
+        DF.namedNode('ex:cit3'),
+        DF.namedNode('ex:cit4'),
+      ],
     };
     await context.rdfObjectLoader.context;
   });
@@ -57,6 +63,26 @@ describe('EnhancementHandlerPersonNames', () => {
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
           'snvoc:hasMaliciousCreator': 'ex:per4',
+        },
+      ]).flatMap(resource => resource.toQuads()));
+    });
+
+    it('should handle with definedByCity enabled', async() => {
+      handler = new EnhancementHandlerPersonNames(0.5, true);
+      await handler.generate(stream, context);
+      stream.end();
+      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+        {
+          '@id': 'ex:per1',
+          'snvoc:firstName': '"Zulma"',
+          'snvoc:lastName': '"Tulma"',
+          'snvoc:hasMaliciousCreator': 'ex:cit2',
+        },
+        {
+          '@id': 'ex:per3',
+          'snvoc:firstName': '"Zulma"',
+          'snvoc:lastName': '"Tulma"',
+          'snvoc:hasMaliciousCreator': 'ex:cit4',
         },
       ]).flatMap(resource => resource.toQuads()));
     });

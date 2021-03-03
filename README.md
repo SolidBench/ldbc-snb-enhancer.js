@@ -84,12 +84,20 @@ Generate additional names for existing people.
 
 Parameters:
 * `"EnhancementHandlerPersonNames:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
+* `"EnhancementHandlerPersonNames:_definedByCity"`: Optional parameter to indicate if the snvoc:hasMaliciousCreator predicate should refer to a city instead of a person. (defaults to false)
 
 Generated shape:
 ```turtle
 <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471> <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/firstName> "Zulma";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/lastName> "Tulma";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000032985348840411>.
+```
+
+Generated shape with `definedByCity`:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000021990232555617> <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/firstName> "Zulma";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/lastName> "Tulma";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://dbpedia.org/resource/Dingzhou>.
 ```
 
 #### Posts Handler
