@@ -67,6 +67,31 @@ The important parts in this config file are:
 
 The following handlers can be configured.
 
+#### Person Names Handler
+
+Generate additional names for existing people.
+
+```json
+{
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPersonNames",
+      "EnhancementHandlerPersonNames:_chance": 0.3
+    }
+  ]
+}
+```
+
+Parameters:
+* `"EnhancementHandlerPersonNames:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
+
+Generated shape:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471> <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/firstName> "Zulma";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/lastName> "Tulma";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000032985348840411>.
+```
+
 #### Posts Handler
 
 Generate posts and assign them to existing people.
