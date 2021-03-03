@@ -31,6 +31,7 @@ export class EnhancementHandlerPersonNames implements IEnhancementHandler {
         context.dataSelector.selectArrayElement(context.people);
       const resource = context.rdfObjectLoader.createCompactedResource({
         '@id': person.value,
+        type: 'snvoc:Person',
         'snvoc:firstName': '"Zulma"',
         'snvoc:lastName': '"Tulma"',
         'snvoc:hasMaliciousCreator': personMalicious,

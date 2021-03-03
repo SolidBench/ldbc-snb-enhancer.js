@@ -54,12 +54,14 @@ describe('EnhancementHandlerPersonNames', () => {
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:per1',
+          type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
           'snvoc:hasMaliciousCreator': 'ex:per2',
         },
         {
           '@id': 'ex:per3',
+          type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
           'snvoc:hasMaliciousCreator': 'ex:per4',
@@ -74,12 +76,14 @@ describe('EnhancementHandlerPersonNames', () => {
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:per1',
+          type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
           'snvoc:hasMaliciousCreator': 'ex:cit2',
         },
         {
           '@id': 'ex:per3',
+          type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
           'snvoc:hasMaliciousCreator': 'ex:cit4',
