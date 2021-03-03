@@ -6,6 +6,16 @@
 
 Generates auxiliary data based on an [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen) social network dataset.
 
+For example, it can generate fake names for existing people such as:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471> <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/firstName> "Zulma";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/lastName> "Tulma";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000032985348840411>.
+```
+
+All auxiliary data that is generated is annotated with the predicate `http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator`,
+which can refer to an existing person, that acts as a _malicious actor_.
+
 ## Installation
 
 ```bash
@@ -38,6 +48,7 @@ The config file that should be passed to the command line tool has the following
   "@type": "Enhancer",
   "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
   "Enhancer:_options_destinationPath": "path/to/social_network_auxiliary.ttl",
+  "Enhancer:_options_staticPath": "path/to/social_network_static_0_0.ttl",
   "Enhancer:_options_logger": {
     "@type": "LoggerStdout"
   },
@@ -47,8 +58,8 @@ The config file that should be passed to the command line tool has the following
   },
   "Enhancer:_options_handlers": [
     {
-      "@type": "EnhancementHandlerPosts",
-      "EnhancementHandlerPosts:_chance": 0.3
+      "@type": "EnhancementHandlerPersonNames",
+      "EnhancementHandlerPersonNames:_chance": 0.3
     }
   ]
 }

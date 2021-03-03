@@ -5,6 +5,7 @@
   "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
   "Enhancer:_options_activitiesPath": "path/to/social_network_activity_0_0.ttl",
   "Enhancer:_options_destinationPath": "path/to/social_network_auxiliary.ttl",
+  "Enhancer:_options_staticPath": "path/to/social_network_static_0_0.ttl",
   "Enhancer:_options_logger": {
     "@type": "LoggerStdout"
   },
@@ -13,6 +14,10 @@
     "DataSelectorRandom:_seed": 12345
   },
   "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPersonNames",
+      "EnhancementHandlerPersonNames:_chance": 0.3
+    },
     {
       "@type": "EnhancementHandlerPosts",
       "EnhancementHandlerPosts:_chance": 0.3
