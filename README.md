@@ -126,6 +126,41 @@ Generated shape:
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasTag> <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Georges_Bizet>.
 ```
 
+#### Comments Handler
+
+Generate comments and assign them to existing people as reply to existing posts
+
+```json
+{
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerComments",
+      "EnhancementHandlerComments:_chance": 0.3
+    }
+  ]
+}
+```
+
+Parameters:
+* `"EnhancementHandlerComments:_chance"`: The chance for comments to be generated. The number of comments will be the number of people times this chance, where people are randomly assigned to comments.
+
+Generated shape:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/comment-fake9> a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "9";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000008796093024878>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000032985348839704>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/creationDate> "2021-02-22T10:39:31.595Z";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP> "200.200.200.200";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/browserUsed> "Firefox";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/content> "Tomatoes are blue";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/length> "17";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/replyOf> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000274877908873>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/language> "en";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locatedIn> <http://dbpedia.org/resource/Belgium>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasTag> <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Georges_Bizet>.
+```
+
 #### Post Contents Handler
 
 Generate additional contents for existing posts.
