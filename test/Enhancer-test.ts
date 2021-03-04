@@ -62,8 +62,8 @@ describe('Enhancer', () => {
       files['source-persons.ttl'] = `@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix snvoc: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
 @prefix sn: <http://www.ldbc.eu/ldbc_socialnet/1.0/data/> .
-sn:pers00000000000000000933 rdf:type snvoc:Person .
-sn:pers00000000000000001129 rdf:type snvoc:Person .`;
+sn:pers00000000000000000933 rdf:type snvoc:Person; snvoc:isLocatedIn sn:city123 .
+sn:pers00000000000000001129 rdf:type snvoc:Person; snvoc:isLocatedIn sn:city456 .`;
       files['source-activities.ttl'] = `@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix snvoc: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
 @prefix sn: <http://www.ldbc.eu/ldbc_socialnet/1.0/data/> .
@@ -84,6 +84,10 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        peopleLocatedInCities: {
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933': expect.anything(),
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129': expect.anything(),
+        },
         posts: [
           expect.anything(),
           expect.anything(),
@@ -119,6 +123,10 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        peopleLocatedInCities: {
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933': expect.anything(),
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129': expect.anything(),
+        },
         posts: [
           expect.anything(),
           expect.anything(),
@@ -141,12 +149,18 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
     });
 
     it('should handle a dummy file', async() => {
-      expect(await enhancer.extractPeople()).toEqual([]);
+      expect(await enhancer.extractPeople()).toEqual({
+        people: [],
+        peopleLocatedInCities: {},
+      });
     });
 
     it('should handle an empty file', async() => {
       files['source-persons.ttl'] = '';
-      expect(await enhancer.extractPeople()).toEqual([]);
+      expect(await enhancer.extractPeople()).toEqual({
+        people: [],
+        peopleLocatedInCities: {},
+      });
     });
 
     it('should reject on an erroring stream', async() => {
@@ -164,6 +178,7 @@ sn:pers00000000000000000933
     snvoc:id "933"^^xsd:long ;
     snvoc:firstName "Mahinda" ;
     snvoc:lastName "Perera" ;
+    snvoc:isLocatedIn sn:city123 ;
     snvoc:gender "male" .
 sn:pers00000000000000001129
     rdf:type snvoc:Person ;
@@ -171,12 +186,20 @@ sn:pers00000000000000001129
     snvoc:firstName "Carmen" ;
     snvoc:lastName "Lepland" ;
     snvoc:gender "female" ;
+    snvoc:isLocatedIn sn:city456 ;
     snvoc:birthday "1984-02-18"^^xsd:date .
 sn:bla rdf:type snvoc:other .`;
-      expect(await enhancer.extractPeople()).toEqualRdfTermArray([
+      const data = await enhancer.extractPeople();
+      expect(data.people).toEqualRdfTermArray([
         DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933'),
         DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129'),
       ]);
+      expect(data.peopleLocatedInCities).toMatchObject({
+        'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933':
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/city123'),
+        'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129':
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/city456'),
+      });
     });
   });
 

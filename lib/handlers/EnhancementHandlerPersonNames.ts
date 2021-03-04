@@ -16,6 +16,7 @@ export class EnhancementHandlerPersonNames implements IEnhancementHandler {
    *               where names are randomly assigned to names. @range {double}
    * @param definedByCity Optional parameter to indicate if the snvoc:hasMaliciousCreator predicate
    *                      should refer to a city instead of a person. (defaults to false)
+   *                      If enabled, cities will be selected based on the city the random person is located in.
    */
   public constructor(chance: number, definedByCity = false) {
     this.chance = chance;
@@ -27,8 +28,11 @@ export class EnhancementHandlerPersonNames implements IEnhancementHandler {
     for (let i = 0; i < namesLength; i++) {
       const person = context.dataSelector.selectArrayElement(context.people);
       const personMalicious = this.definedByCity ?
-        context.dataSelector.selectArrayElement(context.cities) :
+        context.peopleLocatedInCities[person.value] :
         context.dataSelector.selectArrayElement(context.people);
+      if (!personMalicious) {
+        continue;
+      }
       const resource = context.rdfObjectLoader.createCompactedResource({
         '@id': person.value,
         type: 'snvoc:Person',

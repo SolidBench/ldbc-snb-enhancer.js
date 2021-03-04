@@ -20,6 +20,10 @@ export interface IEnhancementContext {
    */
   people: RDF.NamedNode[];
   /**
+   * A mapping of people and the city they are located in.
+   */
+  peopleLocatedInCities: Record<string, RDF.NamedNode>;
+  /**
    * An array of IRIs of all posts in the dataset.
    */
   posts: RDF.NamedNode[];

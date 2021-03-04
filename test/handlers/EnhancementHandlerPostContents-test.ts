@@ -29,6 +29,7 @@ describe('EnhancementHandlerPostContents', () => {
         DF.namedNode('ex:per3'),
         DF.namedNode('ex:per4'),
       ],
+      peopleLocatedInCities: {},
       posts: [
         DF.namedNode('ex:post001'),
         DF.namedNode('ex:post002'),

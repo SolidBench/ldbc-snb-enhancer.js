@@ -54,7 +54,7 @@ export class Enhancer {
 
     // Prepare context
     this.logger?.log('Reading background data: people');
-    const people = await this.extractPeople();
+    const { people, peopleLocatedInCities } = await this.extractPeople();
     this.logger?.log('Reading background data: activities');
     const posts = await this.extractPosts();
     this.logger?.log('Reading background data: cities');
@@ -63,6 +63,7 @@ export class Enhancer {
       rdfObjectLoader: this.rdfObjectLoader,
       dataSelector: this.dataSelector,
       people,
+      peopleLocatedInCities,
       posts,
       cities,
     };
@@ -78,13 +79,15 @@ export class Enhancer {
     writeStream.end();
   }
 
-  public extractPeople(): Promise<RDF.NamedNode[]> {
-    return new Promise<RDF.NamedNode[]>((resolve, reject) => {
+  public extractPeople(): Promise<{ people: RDF.NamedNode[]; peopleLocatedInCities: Record<string, RDF.NamedNode> }> {
+    return new Promise((resolve, reject) => {
       // Prepare RDF terms to compare with
       const termType = this.rdfObjectLoader.createCompactedResource('rdf:type').term;
       const termPerson = this.rdfObjectLoader.createCompactedResource('snvoc:Person').term;
+      const termIsLocatedIn = this.rdfObjectLoader.createCompactedResource('snvoc:isLocatedIn').term;
 
       const people: RDF.NamedNode[] = [];
+      const peopleLocatedInCities: Record<string, RDF.NamedNode> = {};
       const stream = rdfParser.parse(fs.createReadStream(this.personsPath), { path: this.personsPath });
       stream.on('error', reject);
       stream.on('data', (quad: RDF.Quad) => {
@@ -93,9 +96,14 @@ export class Enhancer {
           quad.object.equals(termPerson)) {
           people.push(quad.subject);
         }
+        if (quad.subject.termType === 'NamedNode' &&
+          quad.predicate.equals(termIsLocatedIn) &&
+          quad.object.termType === 'NamedNode') {
+          peopleLocatedInCities[quad.subject.value] = quad.object;
+        }
       });
       stream.on('end', () => {
-        resolve(people);
+        resolve({ people, peopleLocatedInCities });
       });
     });
   }

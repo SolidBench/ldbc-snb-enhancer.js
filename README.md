@@ -96,7 +96,7 @@ Generate additional names for existing people.
 
 Parameters:
 * `"EnhancementHandlerPersonNames:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
-* `"EnhancementHandlerPersonNames:_definedByCity"`: Optional parameter to indicate if the snvoc:hasMaliciousCreator predicate should refer to a city instead of a person. (defaults to false)
+* `"EnhancementHandlerPersonNames:_definedByCity"`: Optional parameter to indicate if the snvoc:hasMaliciousCreator predicate should refer to a city instead of a person. (defaults to false) If enabled, cities will be selected based on the city the random person is located in.
 
 Generated shape:
 ```turtle

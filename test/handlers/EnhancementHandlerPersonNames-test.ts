@@ -29,6 +29,12 @@ describe('EnhancementHandlerPersonNames', () => {
         DF.namedNode('ex:per3'),
         DF.namedNode('ex:per4'),
       ],
+      peopleLocatedInCities: {
+        'ex:per1': DF.namedNode('ex:cit1'),
+        'ex:per2': DF.namedNode('ex:cit2'),
+        'ex:per3': DF.namedNode('ex:cit3'),
+        'ex:per4': DF.namedNode('ex:cit4'),
+      },
       posts: [],
       cities: [
         DF.namedNode('ex:cit1'),
@@ -79,14 +85,31 @@ describe('EnhancementHandlerPersonNames', () => {
           type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
-          'snvoc:hasMaliciousCreator': 'ex:cit2',
+          'snvoc:hasMaliciousCreator': 'ex:cit1',
         },
         {
-          '@id': 'ex:per3',
+          '@id': 'ex:per2',
           type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
-          'snvoc:hasMaliciousCreator': 'ex:cit4',
+          'snvoc:hasMaliciousCreator': 'ex:cit2',
+        },
+      ]).flatMap(resource => resource.toQuads()));
+    });
+
+    it('should handle with definedByCity enabled and a person without city', async() => {
+      delete context.peopleLocatedInCities['ex:per1'];
+
+      handler = new EnhancementHandlerPersonNames(0.5, true);
+      await handler.generate(stream, context);
+      stream.end();
+      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+        {
+          '@id': 'ex:per2',
+          type: 'snvoc:Person',
+          'snvoc:firstName': '"Zulma"',
+          'snvoc:lastName': '"Tulma"',
+          'snvoc:hasMaliciousCreator': 'ex:cit2',
         },
       ]).flatMap(resource => resource.toQuads()));
     });
