@@ -82,6 +82,7 @@ The following handlers can be configured.
 #### Person Names Handler
 
 Generate additional names for existing people.
+People are selected randomly from the friends that are known by the given person.
 
 ```json
 {

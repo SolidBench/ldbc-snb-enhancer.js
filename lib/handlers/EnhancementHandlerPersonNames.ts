@@ -5,6 +5,7 @@ import type { IEnhancementHandler } from './IEnhancementHandler';
 
 /**
  * Generate additional names for existing people.
+ * People are selected randomly from the friends that are known by the given person.
  */
 export class EnhancementHandlerPersonNames implements IEnhancementHandler {
   private readonly chance: number;
@@ -23,14 +24,29 @@ export class EnhancementHandlerPersonNames implements IEnhancementHandler {
     this.definedByCity = definedByCity;
   }
 
+  protected getMaliciousPerson(person: RDF.NamedNode, context: IEnhancementContext): RDF.NamedNode | undefined {
+    if (this.definedByCity) {
+      return context.peopleLocatedInCities[person.value];
+    }
+
+    const knownByArray = context.peopleKnownBy[person.value];
+    if (!knownByArray) {
+      return;
+    }
+    const knownBy = context.dataSelector.selectArrayElement(knownByArray);
+    const knowsArray = context.peopleKnows[knownBy.value];
+    if (!knowsArray) {
+      return;
+    }
+    return context.dataSelector.selectArrayElement(knowsArray);
+  }
+
   public async generate(writeStream: RDF.Stream & Writable, context: IEnhancementContext): Promise<void> {
     const namesLength = this.chance * context.people.length;
     for (let i = 0; i < namesLength; i++) {
       const person = context.dataSelector.selectArrayElement(context.people);
-      const personMalicious = this.definedByCity ?
-        context.peopleLocatedInCities[person.value] :
-        context.dataSelector.selectArrayElement(context.people);
-      if (!personMalicious) {
+      const personMalicious = this.getMaliciousPerson(person, context);
+      if (!personMalicious || personMalicious.equals(person)) {
         continue;
       }
       const resource = context.rdfObjectLoader.createCompactedResource({
@@ -40,7 +56,7 @@ export class EnhancementHandlerPersonNames implements IEnhancementHandler {
         'snvoc:lastName': '"Tulma"',
         'snvoc:hasMaliciousCreator': personMalicious,
       });
-      for (const quad of resource.toQuads()) {
+      for (const quad of resource.toQuads(undefined, undefined, { [personMalicious.value]: true })) {
         writeStream.write(quad);
       }
     }

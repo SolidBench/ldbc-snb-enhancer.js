@@ -38,7 +38,7 @@
   "dependencies": {
     "@types/rdf-js": "*",
     "componentsjs": "^4.0.6",
-    "rdf-object": "^1.10.0",
+    "rdf-object": "^1.10.1",
     "rdf-parse": "^1.7.0",
     "rdf-serialize": "^1.1.0",
     "rdf-string": "^1.5.0",

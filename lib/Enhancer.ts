@@ -54,7 +54,7 @@ export class Enhancer {
 
     // Prepare context
     this.logger?.log('Reading background data: people');
-    const { people, peopleLocatedInCities } = await this.extractPeople();
+    const { people, peopleLocatedInCities, peopleKnows, peopleKnownBy } = await this.extractPeople();
     this.logger?.log('Reading background data: activities');
     const posts = await this.extractPosts();
     this.logger?.log('Reading background data: cities');
@@ -64,6 +64,8 @@ export class Enhancer {
       dataSelector: this.dataSelector,
       people,
       peopleLocatedInCities,
+      peopleKnows,
+      peopleKnownBy,
       posts,
       cities,
     };
@@ -79,31 +81,74 @@ export class Enhancer {
     writeStream.end();
   }
 
-  public extractPeople(): Promise<{ people: RDF.NamedNode[]; peopleLocatedInCities: Record<string, RDF.NamedNode> }> {
+  public extractPeople(): Promise<{
+    people: RDF.NamedNode[];
+    peopleLocatedInCities: Record<string, RDF.NamedNode>;
+    peopleKnows: Record<string, RDF.NamedNode[]>;
+    peopleKnownBy: Record<string, RDF.NamedNode[]>;
+  }> {
     return new Promise((resolve, reject) => {
       // Prepare RDF terms to compare with
       const termType = this.rdfObjectLoader.createCompactedResource('rdf:type').term;
       const termPerson = this.rdfObjectLoader.createCompactedResource('snvoc:Person').term;
       const termIsLocatedIn = this.rdfObjectLoader.createCompactedResource('snvoc:isLocatedIn').term;
+      const termKnows = this.rdfObjectLoader.createCompactedResource('snvoc:knows').term;
+      const termHasPerson = this.rdfObjectLoader.createCompactedResource('snvoc:hasPerson').term;
 
       const people: RDF.NamedNode[] = [];
       const peopleLocatedInCities: Record<string, RDF.NamedNode> = {};
+      const peopleKnows: Record<string, RDF.NamedNode[]> = {};
+      const peopleKnownBy: Record<string, RDF.NamedNode[]> = {};
       const stream = rdfParser.parse(fs.createReadStream(this.personsPath), { path: this.personsPath });
+
+      // Temporary variables to determine knows relationships
+      let currentKnowsPerson: RDF.NamedNode | undefined;
+      let currentKnowsNode: RDF.BlankNode | undefined;
+
       stream.on('error', reject);
       stream.on('data', (quad: RDF.Quad) => {
+        // Extract people
         if (quad.subject.termType === 'NamedNode' &&
           quad.predicate.equals(termType) &&
           quad.object.equals(termPerson)) {
           people.push(quad.subject);
         }
+
+        // Extract people located in cities
         if (quad.subject.termType === 'NamedNode' &&
           quad.predicate.equals(termIsLocatedIn) &&
           quad.object.termType === 'NamedNode') {
           peopleLocatedInCities[quad.subject.value] = quad.object;
         }
+
+        // Extract people knows relationships
+        // 1. Determine reified blank node identifying the relationships
+        if (quad.subject.termType === 'NamedNode' &&
+          quad.predicate.equals(termKnows) &&
+          quad.object.termType === 'BlankNode') {
+          currentKnowsPerson = quad.subject;
+          currentKnowsNode = quad.object;
+        }
+        // 2. Determine the person linked to the relationships
+        if (currentKnowsPerson &&
+          quad.subject.equals(currentKnowsNode) &&
+          quad.predicate.equals(termHasPerson) &&
+          quad.object.termType === 'NamedNode') {
+          if (!peopleKnows[currentKnowsPerson.value]) {
+            peopleKnows[currentKnowsPerson.value] = [];
+          }
+          if (!peopleKnownBy[quad.object.value]) {
+            peopleKnownBy[quad.object.value] = [];
+          }
+          peopleKnows[currentKnowsPerson.value].push(quad.object);
+          peopleKnownBy[quad.object.value].push(currentKnowsPerson);
+
+          currentKnowsPerson = undefined;
+          currentKnowsNode = undefined;
+        }
       });
       stream.on('end', () => {
-        resolve({ people, peopleLocatedInCities });
+        resolve({ people, peopleLocatedInCities, peopleKnows, peopleKnownBy });
       });
     });
   }

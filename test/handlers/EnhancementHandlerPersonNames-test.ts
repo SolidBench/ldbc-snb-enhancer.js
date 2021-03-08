@@ -35,6 +35,22 @@ describe('EnhancementHandlerPersonNames', () => {
         'ex:per3': DF.namedNode('ex:cit3'),
         'ex:per4': DF.namedNode('ex:cit4'),
       },
+      peopleKnownBy: {
+        'ex:per1': [
+          DF.namedNode('ex:per2'),
+        ],
+        'ex:per4': [
+          DF.namedNode('ex:per5'),
+        ],
+      },
+      peopleKnows: {
+        'ex:per2': [
+          DF.namedNode('ex:per3'),
+        ],
+        'ex:per5': [
+          DF.namedNode('ex:per6'),
+        ],
+      },
       posts: [],
       cities: [
         DF.namedNode('ex:cit1'),
@@ -63,14 +79,53 @@ describe('EnhancementHandlerPersonNames', () => {
           type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
-          'snvoc:hasMaliciousCreator': 'ex:per2',
+          'snvoc:hasMaliciousCreator': 'ex:per3',
         },
         {
-          '@id': 'ex:per3',
+          '@id': 'ex:per4',
           type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
-          'snvoc:hasMaliciousCreator': 'ex:per4',
+          'snvoc:hasMaliciousCreator': 'ex:per6',
+        },
+      ]).flatMap(resource => resource.toQuads()));
+    });
+
+    it('should handle when peopleKnownBy is empty', async() => {
+      context.peopleKnownBy = {};
+      await handler.generate(stream, context);
+      stream.end();
+      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
+        .flatMap(resource => resource.toQuads()));
+    });
+
+    it('should handle when peopleKnows is empty', async() => {
+      context.peopleKnows = {};
+      await handler.generate(stream, context);
+      stream.end();
+      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
+        .flatMap(resource => resource.toQuads()));
+    });
+
+    it('should not allow person to be the same as malicious creator', async() => {
+      context.peopleKnows = {
+        'ex:per2': [
+          DF.namedNode('ex:per1'),
+        ],
+        'ex:per5': [
+          DF.namedNode('ex:per6'),
+        ],
+      };
+
+      await handler.generate(stream, context);
+      stream.end();
+      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+        {
+          '@id': 'ex:per4',
+          type: 'snvoc:Person',
+          'snvoc:firstName': '"Zulma"',
+          'snvoc:lastName': '"Tulma"',
+          'snvoc:hasMaliciousCreator': 'ex:per6',
         },
       ]).flatMap(resource => resource.toQuads()));
     });

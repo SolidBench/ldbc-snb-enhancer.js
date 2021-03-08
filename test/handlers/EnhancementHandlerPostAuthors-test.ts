@@ -32,6 +32,8 @@ describe('EnhancementHandlerPostAuthors', () => {
         DF.namedNode('ex:per6'),
       ],
       peopleLocatedInCities: {},
+      peopleKnownBy: {},
+      peopleKnows: {},
       posts: [
         DF.namedNode('ex:post001'),
         DF.namedNode('ex:post002'),

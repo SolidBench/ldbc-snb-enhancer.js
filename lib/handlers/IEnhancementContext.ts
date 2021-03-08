@@ -24,6 +24,14 @@ export interface IEnhancementContext {
    */
   peopleLocatedInCities: Record<string, RDF.NamedNode>;
   /**
+   * A mapping of people to people they know.
+   */
+  peopleKnows: Record<string, RDF.NamedNode[]>;
+  /**
+   * A mapping of people to people they know by.
+   */
+  peopleKnownBy: Record<string, RDF.NamedNode[]>;
+  /**
    * An array of IRIs of all posts in the dataset.
    */
   posts: RDF.NamedNode[];

@@ -88,6 +88,8 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933': expect.anything(),
           'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129': expect.anything(),
         },
+        peopleKnownBy: {},
+        peopleKnows: {},
         posts: [
           expect.anything(),
           expect.anything(),
@@ -127,6 +129,8 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933': expect.anything(),
           'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129': expect.anything(),
         },
+        peopleKnownBy: {},
+        peopleKnows: {},
         posts: [
           expect.anything(),
           expect.anything(),
@@ -152,6 +156,8 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
       expect(await enhancer.extractPeople()).toEqual({
         people: [],
         peopleLocatedInCities: {},
+        peopleKnownBy: {},
+        peopleKnows: {},
       });
     });
 
@@ -160,6 +166,8 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
       expect(await enhancer.extractPeople()).toEqual({
         people: [],
         peopleLocatedInCities: {},
+        peopleKnownBy: {},
+        peopleKnows: {},
       });
     });
 
@@ -179,7 +187,11 @@ sn:pers00000000000000000933
     snvoc:firstName "Mahinda" ;
     snvoc:lastName "Perera" ;
     snvoc:isLocatedIn sn:city123 ;
-    snvoc:gender "male" .
+    snvoc:gender "male" ;
+    snvoc:knows _:b1 .
+_:b1 snvoc:hasPerson sn:pers00000000000000001129 .
+sn:pers00000000000000000933 snvoc:knows _:b2 .
+_:b2 snvoc:hasPerson sn:pers00000000000000001130 .
 sn:pers00000000000000001129
     rdf:type snvoc:Person ;
     snvoc:id "1129"^^xsd:long ;
@@ -187,7 +199,9 @@ sn:pers00000000000000001129
     snvoc:lastName "Lepland" ;
     snvoc:gender "female" ;
     snvoc:isLocatedIn sn:city456 ;
-    snvoc:birthday "1984-02-18"^^xsd:date .
+    snvoc:birthday "1984-02-18"^^xsd:date ;
+    snvoc:knows _:b3 .
+_:b3 snvoc:hasPerson sn:pers00000000000000001130 .
 sn:bla rdf:type snvoc:other .`;
       const data = await enhancer.extractPeople();
       expect(data.people).toEqualRdfTermArray([
@@ -199,6 +213,24 @@ sn:bla rdf:type snvoc:other .`;
           DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/city123'),
         'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129':
           DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/city456'),
+      });
+      expect(data.peopleKnownBy).toMatchObject({
+        'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129': [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933'),
+        ],
+        'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001130': [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129'),
+        ],
+      });
+      expect(data.peopleKnows).toMatchObject({
+        'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000933': [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001130'),
+        ],
+        'http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001129': [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000001130'),
+        ],
       });
     });
   });
