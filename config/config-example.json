@@ -4,8 +4,8 @@
   "@type": "Enhancer",
   "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
   "Enhancer:_options_activitiesPath": "path/to/social_network_activity_0_0.ttl",
-  "Enhancer:_options_destinationPath": "path/to/social_network_auxiliary.ttl",
   "Enhancer:_options_staticPath": "path/to/social_network_static_0_0.ttl",
+  "Enhancer:_options_destinationPathData": "path/to/social_network_auxiliary.ttl",
   "Enhancer:_options_logger": {
     "@type": "LoggerStdout"
   },

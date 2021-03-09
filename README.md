@@ -48,8 +48,9 @@ The config file that should be passed to the command line tool has the following
   "@id": "urn:ldbc-snb-enhancer:default",
   "@type": "Enhancer",
   "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
-  "Enhancer:_options_destinationPath": "path/to/social_network_auxiliary.ttl",
+  "Enhancer:_options_activitiesPath": "path/to/social_network_activity_0_0.ttl",
   "Enhancer:_options_staticPath": "path/to/social_network_static_0_0.ttl",
+  "Enhancer:_options_destinationPathData": "path/to/social_network_auxiliary.ttl",
   "Enhancer:_options_logger": {
     "@type": "LoggerStdout"
   },

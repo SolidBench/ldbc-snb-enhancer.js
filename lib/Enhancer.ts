@@ -19,7 +19,7 @@ export class Enhancer {
   private readonly personsPath: string;
   private readonly activitiesPath: string;
   private readonly staticPath: string;
-  private readonly destinationPath: string;
+  private readonly destinationPathData: string;
   private readonly dataSelector: IDataSelector;
   private readonly handlers: IEnhancementHandler[];
   private readonly logger?: ILogger;
@@ -30,7 +30,7 @@ export class Enhancer {
     this.personsPath = options.personsPath;
     this.activitiesPath = options.activitiesPath;
     this.staticPath = options.staticPath;
-    this.destinationPath = options.destinationPath;
+    this.destinationPathData = options.destinationPathData;
     this.dataSelector = options.dataSelector;
     this.handlers = options.handlers;
     this.logger = options.logger;
@@ -49,7 +49,7 @@ export class Enhancer {
     // Prepare output stream
     this.logger?.log('Preparing output stream');
     const writeStream: RDF.Stream & Writable = <any> new PassThrough({ objectMode: true });
-    const fileStream = fs.createWriteStream(this.destinationPath);
+    const fileStream = fs.createWriteStream(this.destinationPathData);
     rdfSerializer.serialize(writeStream, { contentType: 'text/turtle' }).pipe(fileStream);
 
     // Prepare context
@@ -214,7 +214,7 @@ export interface IEnhancerOptions {
   /**
    * Path to the output destination file.
    */
-  destinationPath: string;
+  destinationPathData: string;
   /**
    * Data selector.
    */

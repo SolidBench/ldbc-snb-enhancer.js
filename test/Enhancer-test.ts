@@ -48,7 +48,7 @@ describe('Enhancer', () => {
       personsPath: 'source-persons.ttl',
       activitiesPath: 'source-activities.ttl',
       staticPath: 'source-static.ttl',
-      destinationPath: 'destination.ttl',
+      destinationPathData: 'destination.ttl',
       dataSelector: new DataSelectorSequential(),
       handlers,
     });
@@ -111,7 +111,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
         personsPath: 'source-persons.ttl',
         activitiesPath: 'source-activities.ttl',
         staticPath: 'source-static.ttl',
-        destinationPath: 'destination.ttl',
+        destinationPathData: 'destination.ttl',
         dataSelector: new DataSelectorSequential(),
         handlers,
         logger,
