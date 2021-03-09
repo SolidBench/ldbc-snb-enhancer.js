@@ -128,6 +128,7 @@ This is a variant of the Person Names Handler.
 
 Parameters:
 * `"EnhancementHandlerPersonNamesCities:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
+* `"EnhancementHandlerPersonNamesCities:_parameterEmitter""`: An optional parameter emitter.
 
 Generated shape:
 ```turtle

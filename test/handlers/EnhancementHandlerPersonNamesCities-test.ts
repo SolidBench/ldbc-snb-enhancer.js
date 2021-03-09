@@ -4,6 +4,7 @@ import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
 import { EnhancementHandlerPersonNamesCities } from '../../lib/handlers/EnhancementHandlerPersonNamesCities';
 import type { IEnhancementContext } from '../../lib/handlers/IEnhancementContext';
+import type { IParameterEmitter } from '../../lib/parameters/IParameterEmitter';
 import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
 
@@ -105,6 +106,30 @@ describe('EnhancementHandlerPersonNamesCities', () => {
           'snvoc:hasMaliciousCreator': 'ex:cit2',
         },
       ]).flatMap(resource => resource.toQuads()));
+    });
+  });
+
+  describe('with a parameterEmitter', () => {
+    let emitter: IParameterEmitter;
+
+    beforeEach(async() => {
+      emitter = {
+        emitHeader: jest.fn(),
+        emitRow: jest.fn(),
+        flush: jest.fn(),
+      };
+      handler = new EnhancementHandlerPersonNamesCities(0.5, emitter);
+    });
+
+    describe('generate', () => {
+      it('should handle', async() => {
+        await handler.generate(stream, context);
+
+        expect(emitter.emitHeader).toHaveBeenCalledWith([ 'person', 'cityMalicious' ]);
+        expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per1', 'ex:cit1' ]);
+        expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per2', 'ex:cit2' ]);
+        expect(emitter.flush).toHaveBeenCalled();
+      });
     });
   });
 });
