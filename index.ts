@@ -8,6 +8,8 @@ export * from './lib/handlers/IEnhancementContext';
 export * from './lib/handlers/IEnhancementHandler';
 export * from './lib/logging/ILogger';
 export * from './lib/logging/LoggerStdout';
+export * from './lib/parameters/IParameterEmitter';
+export * from './lib/parameters/ParameterEmitterCsv';
 export * from './lib/selector/DataSelectorRandom';
 export * from './lib/selector/IDataSelector';
 export * from './lib/CliRunner';

@@ -4,6 +4,7 @@ import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
 import { EnhancementHandlerPersonNames } from '../../lib/handlers/EnhancementHandlerPersonNames';
 import type { IEnhancementContext } from '../../lib/handlers/IEnhancementContext';
+import type { IParameterEmitter } from '../../lib/parameters/IParameterEmitter';
 import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
 
@@ -128,6 +129,30 @@ describe('EnhancementHandlerPersonNames', () => {
           'snvoc:hasMaliciousCreator': 'ex:per6',
         },
       ]).flatMap(resource => resource.toQuads()));
+    });
+  });
+
+  describe('with a parameterEmitter', () => {
+    let emitter: IParameterEmitter;
+
+    beforeEach(async() => {
+      emitter = {
+        emitHeader: jest.fn(),
+        emitRow: jest.fn(),
+        flush: jest.fn(),
+      };
+      handler = new EnhancementHandlerPersonNames(0.5, emitter);
+    });
+
+    describe('generate', () => {
+      it('should handle', async() => {
+        await handler.generate(stream, context);
+
+        expect(emitter.emitHeader).toHaveBeenCalledWith([ 'person', 'personMalicious', 'personCommonFriend' ]);
+        expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per1', 'ex:per3', 'ex:per2' ]);
+        expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per4', 'ex:per6', 'ex:per5' ]);
+        expect(emitter.flush).toHaveBeenCalled();
+      });
     });
   });
 });

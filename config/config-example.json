@@ -16,7 +16,11 @@
   "Enhancer:_options_handlers": [
     {
       "@type": "EnhancementHandlerPersonNames",
-      "EnhancementHandlerPersonNames:_chance": 0.3
+      "EnhancementHandlerPersonNames:_chance": 0.3,
+      "EnhancementHandlerPersonNames:_parameterEmitter": {
+        "@type": "ParameterEmitterCsv",
+        "ParameterEmitterCsv:_destinationPath": "path/to/parameters-person-names.csv"
+      }
     },
     {
       "@type": "EnhancementHandlerPosts",

@@ -98,6 +98,7 @@ People are selected randomly from the friends that are known by the given person
 
 Parameters:
 * `"EnhancementHandlerPersonNames:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
+* `"EnhancementHandlerPersonNames:_parameterEmitter""`: An optional parameter emitter.
 
 Generated shape:
 ```turtle
@@ -253,6 +254,31 @@ Generated shape:
 <http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000962072675046> <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "962072675046";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000006597069770017>;
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000019791209301543>.
+```
+
+### Parameter Emitters
+
+Certain handlers allow their internal parameters to be emitted.
+
+Such parameters may then for instance be valuable as query substitution parameters.
+
+#### CSV Parameter Emitter
+
+Emits parameters as CSV files.
+
+```json
+{
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPersonNames",
+      "EnhancementHandlerPersonNames:_chance": 0.3,
+      "EnhancementHandlerPersonNames:_parameterEmitter": {
+        "@type": "ParameterEmitterCsv",
+        "ParameterEmitterCsv:_destinationPath": "parameters-person-names.csv"
+      }
+    }
+  ]
+}
 ```
 
 ## License
