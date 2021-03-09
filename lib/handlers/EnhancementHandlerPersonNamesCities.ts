@@ -4,10 +4,10 @@ import type { IEnhancementContext } from './IEnhancementContext';
 import type { IEnhancementHandler } from './IEnhancementHandler';
 
 /**
- * Generate additional names for existing people.
- * People are selected randomly from the friends that are known by the given person.
+ * Generate additional names for existing people where the malicious creator refers to a city.
+ * Cities will be selected based on the city the random person is located in.
  */
-export class EnhancementHandlerPersonNames implements IEnhancementHandler {
+export class EnhancementHandlerPersonNamesCities implements IEnhancementHandler {
   private readonly chance: number;
 
   /**
@@ -19,25 +19,12 @@ export class EnhancementHandlerPersonNames implements IEnhancementHandler {
     this.chance = chance;
   }
 
-  protected getMaliciousPerson(person: RDF.NamedNode, context: IEnhancementContext): RDF.NamedNode | undefined {
-    const knownByArray = context.peopleKnownBy[person.value];
-    if (!knownByArray) {
-      return;
-    }
-    const knownBy = context.dataSelector.selectArrayElement(knownByArray);
-    const knowsArray = context.peopleKnows[knownBy.value];
-    if (!knowsArray) {
-      return;
-    }
-    return context.dataSelector.selectArrayElement(knowsArray);
-  }
-
   public async generate(writeStream: RDF.Stream & Writable, context: IEnhancementContext): Promise<void> {
     const namesLength = this.chance * context.people.length;
     for (let i = 0; i < namesLength; i++) {
       const person = context.dataSelector.selectArrayElement(context.people);
-      const personMalicious = this.getMaliciousPerson(person, context);
-      if (!personMalicious || personMalicious.equals(person)) {
+      const personMalicious = context.peopleLocatedInCities[person.value];
+      if (!personMalicious) {
         continue;
       }
       const resource = context.rdfObjectLoader.createCompactedResource({

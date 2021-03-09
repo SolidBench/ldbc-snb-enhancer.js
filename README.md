@@ -98,7 +98,6 @@ People are selected randomly from the friends that are known by the given person
 
 Parameters:
 * `"EnhancementHandlerPersonNames:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
-* `"EnhancementHandlerPersonNames:_definedByCity"`: Optional parameter to indicate if the snvoc:hasMaliciousCreator predicate should refer to a city instead of a person. (defaults to false) If enabled, cities will be selected based on the city the random person is located in.
 
 Generated shape:
 ```turtle
@@ -108,7 +107,28 @@ Generated shape:
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000032985348840411>.
 ```
 
-Generated shape with `definedByCity`:
+#### Person Names in Cities Handler
+
+Generate additional names for existing people where the malicious creator refers to a city.
+Cities will be selected based on the city the random person is located in.
+
+This is a variant of the Person Names Handler.
+
+```json
+{
+  "Enhancer:_options_handlers": [
+    {
+      "@type": "EnhancementHandlerPersonNamesCities",
+      "EnhancementHandlerPersonNamesCities:_chance": 0.3
+    }
+  ]
+}
+```
+
+Parameters:
+* `"EnhancementHandlerPersonNamesCities:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
+
+Generated shape:
 ```turtle
 <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000021990232555617> a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person>
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/firstName> "Zulma";

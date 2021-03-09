@@ -2,7 +2,7 @@ import { PassThrough } from 'stream';
 import { DataFactory } from 'rdf-data-factory';
 import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
-import { EnhancementHandlerPersonNames } from '../../lib/handlers/EnhancementHandlerPersonNames';
+import { EnhancementHandlerPersonNamesCities } from '../../lib/handlers/EnhancementHandlerPersonNamesCities';
 import type { IEnhancementContext } from '../../lib/handlers/IEnhancementContext';
 import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
@@ -10,14 +10,14 @@ import 'jest-rdf';
 const arrayifyStream = require('arrayify-stream');
 const DF = new DataFactory();
 
-describe('EnhancementHandlerPersonNames', () => {
-  let handler: EnhancementHandlerPersonNames;
+describe('EnhancementHandlerPersonNamesCities', () => {
+  let handler: EnhancementHandlerPersonNamesCities;
   let stream: PassThrough;
   let rdfObjectLoader: RdfObjectLoader;
   let context: IEnhancementContext;
 
   beforeEach(async() => {
-    handler = new EnhancementHandlerPersonNames(0.5);
+    handler = new EnhancementHandlerPersonNamesCities(0.5);
     stream = new PassThrough({ objectMode: true });
     rdfObjectLoader = new RdfObjectLoader({ context: Enhancer.CONTEXT_LDBC_SNB });
     context = {
@@ -79,53 +79,30 @@ describe('EnhancementHandlerPersonNames', () => {
           type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
-          'snvoc:hasMaliciousCreator': 'ex:per3',
+          'snvoc:hasMaliciousCreator': 'ex:cit1',
         },
         {
-          '@id': 'ex:per4',
+          '@id': 'ex:per2',
           type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
-          'snvoc:hasMaliciousCreator': 'ex:per6',
+          'snvoc:hasMaliciousCreator': 'ex:cit2',
         },
       ]).flatMap(resource => resource.toQuads()));
     });
 
-    it('should handle when peopleKnownBy is empty', async() => {
-      context.peopleKnownBy = {};
-      await handler.generate(stream, context);
-      stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
-        .flatMap(resource => resource.toQuads()));
-    });
-
-    it('should handle when peopleKnows is empty', async() => {
-      context.peopleKnows = {};
-      await handler.generate(stream, context);
-      stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
-        .flatMap(resource => resource.toQuads()));
-    });
-
-    it('should not allow person to be the same as malicious creator', async() => {
-      context.peopleKnows = {
-        'ex:per2': [
-          DF.namedNode('ex:per1'),
-        ],
-        'ex:per5': [
-          DF.namedNode('ex:per6'),
-        ],
-      };
+    it('should handle with a person without city', async() => {
+      delete context.peopleLocatedInCities['ex:per1'];
 
       await handler.generate(stream, context);
       stream.end();
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
-          '@id': 'ex:per4',
+          '@id': 'ex:per2',
           type: 'snvoc:Person',
           'snvoc:firstName': '"Zulma"',
           'snvoc:lastName': '"Tulma"',
-          'snvoc:hasMaliciousCreator': 'ex:per6',
+          'snvoc:hasMaliciousCreator': 'ex:cit2',
         },
       ]).flatMap(resource => resource.toQuads()));
     });
