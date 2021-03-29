@@ -56,7 +56,7 @@ export class Enhancer {
     this.logger?.log('Reading background data: people');
     const { people, peopleLocatedInCities, peopleKnows, peopleKnownBy } = await this.extractPeople();
     this.logger?.log('Reading background data: activities');
-    const posts = await this.extractPosts();
+    const { posts, comments } = await this.extractActivities();
     this.logger?.log('Reading background data: cities');
     const cities = await this.extractCities();
     const context: IEnhancementContext = {
@@ -67,6 +67,7 @@ export class Enhancer {
       peopleKnows,
       peopleKnownBy,
       posts,
+      comments,
       cities,
     };
 
@@ -153,24 +154,30 @@ export class Enhancer {
     });
   }
 
-  public extractPosts(): Promise<RDF.NamedNode[]> {
-    return new Promise<RDF.NamedNode[]>((resolve, reject) => {
+  public extractActivities(): Promise<{ posts: RDF.NamedNode[]; comments: RDF.NamedNode[] }> {
+    return new Promise<{ posts: RDF.NamedNode[]; comments: RDF.NamedNode[] }>((resolve, reject) => {
       // Prepare RDF terms to compare with
       const termType = this.rdfObjectLoader.createCompactedResource('rdf:type').term;
       const termPost = this.rdfObjectLoader.createCompactedResource('snvoc:Post').term;
+      const termComment = this.rdfObjectLoader.createCompactedResource('snvoc:Comment').term;
 
       const posts: RDF.NamedNode[] = [];
+      const comments: RDF.NamedNode[] = [];
       const stream = rdfParser.parse(fs.createReadStream(this.activitiesPath), { path: this.activitiesPath });
       stream.on('error', reject);
       stream.on('data', (quad: RDF.Quad) => {
         if (quad.subject.termType === 'NamedNode' &&
-          quad.predicate.equals(termType) &&
-          quad.object.equals(termPost)) {
-          posts.push(quad.subject);
+          quad.predicate.equals(termType)) {
+          if (quad.object.equals(termPost)) {
+            posts.push(quad.subject);
+          }
+          if (quad.object.equals(termComment)) {
+            comments.push(quad.subject);
+          }
         }
       });
       stream.on('end', () => {
-        resolve(posts);
+        resolve({ posts, comments });
       });
     });
   }

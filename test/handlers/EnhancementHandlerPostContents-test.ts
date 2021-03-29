@@ -38,6 +38,7 @@ describe('EnhancementHandlerPostContents', () => {
         DF.namedNode('ex:post003'),
         DF.namedNode('ex:post004'),
       ],
+      comments: [],
       cities: [],
     };
     await context.rdfObjectLoader.context;

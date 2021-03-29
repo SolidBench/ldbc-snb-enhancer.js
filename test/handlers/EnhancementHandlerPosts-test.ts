@@ -33,6 +33,7 @@ describe('EnhancementHandlerPosts', () => {
       peopleKnownBy: {},
       peopleKnows: {},
       posts: [],
+      comments: [],
       cities: [],
     };
     await context.rdfObjectLoader.context;

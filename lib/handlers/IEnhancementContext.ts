@@ -36,6 +36,10 @@ export interface IEnhancementContext {
    */
   posts: RDF.NamedNode[];
   /**
+   * An array of IRIs of all comments in the dataset.
+   */
+  comments: RDF.NamedNode[];
+  /**
    * An array of IRIs of all cities in the dataset.
    */
   cities: RDF.NamedNode[];

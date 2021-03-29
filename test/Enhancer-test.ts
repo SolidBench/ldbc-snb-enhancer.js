@@ -94,6 +94,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        comments: [],
         cities: [
           expect.anything(),
           expect.anything(),
@@ -135,6 +136,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        comments: [],
         cities: [
           expect.anything(),
           expect.anything(),
@@ -235,23 +237,29 @@ sn:bla rdf:type snvoc:other .`;
     });
   });
 
-  describe('extractPosts', () => {
+  describe('extractActivities', () => {
     beforeEach(async() => {
       await (<any> enhancer).rdfObjectLoader.context;
     });
 
     it('should handle a dummy file', async() => {
-      expect(await enhancer.extractPosts()).toEqual([]);
+      expect(await enhancer.extractActivities()).toEqual({
+        posts: [],
+        comments: [],
+      });
     });
 
     it('should handle an empty file', async() => {
       files['source-activities.ttl'] = '';
-      expect(await enhancer.extractPosts()).toEqual([]);
+      expect(await enhancer.extractActivities()).toEqual({
+        posts: [],
+        comments: [],
+      });
     });
 
     it('should reject on an erroring stream', async() => {
       delete files['source-activities.ttl'];
-      await expect(enhancer.extractPosts()).rejects.toThrow();
+      await expect(enhancer.extractActivities()).rejects.toThrow();
     });
 
     it('should handle a valid file', async() => {
@@ -269,10 +277,25 @@ sn:post00000000000000000003
     rdf:type snvoc:Post ;
     snvoc:id "3"^^xsd:long ;
     snvoc:creationDate "2010-02-14T20:30:21.451Z"^^xsd:dateTime .
-sn:bla rdf:type snvoc:other .`;
-      expect(await enhancer.extractPosts()).toEqualRdfTermArray([
+sn:bla rdf:type snvoc:other .
+sn:comm00000000618475290624
+    rdf:type snvoc:Comment ;
+    snvoc:id "618475290624"^^xsd:long ;
+    snvoc:creationDate "2011-08-17T06:05:40.595Z"^^xsd:dateTime ;
+    snvoc:locationIP "49.246.218.237" ;
+    snvoc:browserUsed "Firefox" .
+sn:comm00000000000000000003
+    rdf:type snvoc:Comment ;
+    snvoc:id "3"^^xsd:long ;
+    snvoc:creationDate "2010-02-14T20:30:21.451Z"^^xsd:dateTime .`;
+      const { posts, comments } = await enhancer.extractActivities();
+      expect(posts).toEqualRdfTermArray([
         DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000618475290624'),
         DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000000000000003'),
+      ]);
+      expect(comments).toEqualRdfTermArray([
+        DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/comm00000000618475290624'),
+        DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/comm00000000000000000003'),
       ]);
     });
   });
