@@ -73,6 +73,8 @@ The important parts in this config file are:
 * `"Enhancer:_options_logger"`: An optional logger for tracking the generation process. (`LoggerStdout` prints to standard output)
 * `"Enhancer:_options_dataSelector"`: A strategy for selecting values from a collection. (`DataSelectorRandom` selects random values based on a given seed)
 * `"Enhancer:_options_handlers"`: An array of enhancement handlers, which are strategies for generating data.
+* `"Enhancer:_options_parameterEmitterPosts""`: An optional parameter emitter for the extracted posts.
+* `"Enhancer:_options_parameterEmitterComments""`: An optional parameter emitter for the extracted comments.
 
 ## Configure
 

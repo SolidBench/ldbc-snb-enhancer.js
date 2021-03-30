@@ -3,6 +3,7 @@ import { DataFactory } from 'rdf-data-factory';
 import 'jest-rdf';
 import { Enhancer } from '../lib/Enhancer';
 import type { IEnhancementHandler } from '../lib/handlers/IEnhancementHandler';
+import type { IParameterEmitter } from '../lib/parameters/IParameterEmitter';
 import { DataSelectorSequential } from './selector/DataSelectorSequential';
 
 const streamifyString = require('streamify-string');
@@ -336,6 +337,95 @@ sn:bla rdf:type snvoc:other .`;
         DF.namedNode('http://dbpedia.org/resource/Pondicherry'),
         DF.namedNode('http://dbpedia.org/resource/Rewari'),
       ]);
+    });
+  });
+
+  describe('with parameter emitters', () => {
+    let emitterPosts: IParameterEmitter;
+    let emitterComments: IParameterEmitter;
+
+    beforeEach(async() => {
+      emitterPosts = {
+        emitHeader: jest.fn(),
+        emitRow: jest.fn(),
+        flush: jest.fn(),
+      };
+      emitterComments = {
+        emitHeader: jest.fn(),
+        emitRow: jest.fn(),
+        flush: jest.fn(),
+      };
+      enhancer = new Enhancer({
+        personsPath: 'source-persons.ttl',
+        activitiesPath: 'source-activities.ttl',
+        staticPath: 'source-static.ttl',
+        destinationPathData: 'destination.ttl',
+        dataSelector: new DataSelectorSequential(),
+        handlers,
+        parameterEmitterPosts: emitterPosts,
+        parameterEmitterComments: emitterComments,
+      });
+    });
+
+    describe('extractActivities', () => {
+      beforeEach(async() => {
+        await (<any> enhancer).rdfObjectLoader.context;
+      });
+
+      it('should handle a valid file', async() => {
+        files['source-activities.ttl'] = `@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix snvoc: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
+@prefix sn: <http://www.ldbc.eu/ldbc_socialnet/1.0/data/> .
+sn:post00000000618475290624
+    rdf:type snvoc:Post ;
+    snvoc:id "618475290624"^^xsd:long ;
+    snvoc:creationDate "2011-08-17T06:05:40.595Z"^^xsd:dateTime ;
+    snvoc:locationIP "49.246.218.237" ;
+    snvoc:browserUsed "Firefox" .
+sn:post00000000000000000003
+    rdf:type snvoc:Post ;
+    snvoc:id "3"^^xsd:long ;
+    snvoc:creationDate "2010-02-14T20:30:21.451Z"^^xsd:dateTime .
+sn:bla rdf:type snvoc:other .
+sn:comm00000000618475290624
+    rdf:type snvoc:Comment ;
+    snvoc:id "618475290624"^^xsd:long ;
+    snvoc:creationDate "2011-08-17T06:05:40.595Z"^^xsd:dateTime ;
+    snvoc:locationIP "49.246.218.237" ;
+    snvoc:browserUsed "Firefox" .
+sn:comm00000000000000000003
+    rdf:type snvoc:Comment ;
+    snvoc:id "3"^^xsd:long ;
+    snvoc:creationDate "2010-02-14T20:30:21.451Z"^^xsd:dateTime .`;
+        const { posts, comments } = await enhancer.extractActivities();
+        expect(posts).toEqualRdfTermArray([
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000618475290624'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000000000000003'),
+        ]);
+        expect(comments).toEqualRdfTermArray([
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/comm00000000618475290624'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/data/comm00000000000000000003'),
+        ]);
+
+        expect(emitterPosts.emitHeader).toHaveBeenCalledWith([ 'post' ]);
+        expect(emitterPosts.emitRow).toHaveBeenCalledWith([
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000618475290624',
+        ]);
+        expect(emitterPosts.emitRow).toHaveBeenCalledWith([
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000000000000003',
+        ]);
+        expect(emitterPosts.flush).toHaveBeenCalled();
+
+        expect(emitterComments.emitHeader).toHaveBeenCalledWith([ 'comment' ]);
+        expect(emitterComments.emitRow).toHaveBeenCalledWith([
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/comm00000000618475290624',
+        ]);
+        expect(emitterComments.emitRow).toHaveBeenCalledWith([
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/comm00000000000000000003',
+        ]);
+        expect(emitterComments.flush).toHaveBeenCalled();
+      });
     });
   });
 });

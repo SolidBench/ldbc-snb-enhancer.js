@@ -8,6 +8,7 @@ import rdfSerializer from 'rdf-serialize';
 import type { IEnhancementContext } from './handlers/IEnhancementContext';
 import type { IEnhancementHandler } from './handlers/IEnhancementHandler';
 import type { ILogger } from './logging/ILogger';
+import type { IParameterEmitter } from './parameters/IParameterEmitter';
 import type { IDataSelector } from './selector/IDataSelector';
 
 /**
@@ -23,6 +24,8 @@ export class Enhancer {
   private readonly dataSelector: IDataSelector;
   private readonly handlers: IEnhancementHandler[];
   private readonly logger?: ILogger;
+  private readonly parameterEmitterPosts?: IParameterEmitter;
+  private readonly parameterEmitterComments?: IParameterEmitter;
 
   private readonly rdfObjectLoader: RdfObjectLoader;
 
@@ -34,8 +37,13 @@ export class Enhancer {
     this.dataSelector = options.dataSelector;
     this.handlers = options.handlers;
     this.logger = options.logger;
+    this.parameterEmitterPosts = options.parameterEmitterPosts;
+    this.parameterEmitterComments = options.parameterEmitterComments;
 
     this.rdfObjectLoader = new RdfObjectLoader({ context: Enhancer.CONTEXT_LDBC_SNB });
+
+    this.parameterEmitterPosts?.emitHeader([ 'post' ]);
+    this.parameterEmitterComments?.emitHeader([ 'comment' ]);
   }
 
   /**
@@ -170,13 +178,18 @@ export class Enhancer {
           quad.predicate.equals(termType)) {
           if (quad.object.equals(termPost)) {
             posts.push(quad.subject);
+            // Emit parameters
+            this.parameterEmitterPosts?.emitRow([ quad.subject.value ]);
           }
           if (quad.object.equals(termComment)) {
             comments.push(quad.subject);
+            this.parameterEmitterComments?.emitRow([ quad.subject.value ]);
           }
         }
       });
       stream.on('end', () => {
+        this.parameterEmitterPosts?.flush();
+        this.parameterEmitterComments?.flush();
         resolve({ posts, comments });
       });
     });
@@ -234,4 +247,12 @@ export interface IEnhancerOptions {
    * Logger.
    */
   logger?: ILogger;
+  /**
+   * An optional parameter emitter for all available posts.
+   */
+  parameterEmitterPosts?: IParameterEmitter;
+  /**
+   * An optional parameter emitter for all available comments.
+   */
+  parameterEmitterComments?: IParameterEmitter;
 }
