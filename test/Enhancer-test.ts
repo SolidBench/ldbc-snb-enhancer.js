@@ -76,6 +76,17 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
 <http://dbpedia.org/resource/Rewari> rdf:type dbpedia-owl:City .`;
     });
 
+    it('should run for no handlers', async() => {
+      enhancer = new Enhancer({
+        personsPath: 'source-persons.ttl',
+        activitiesPath: 'source-activities.ttl',
+        staticPath: 'source-static.ttl',
+        destinationPathData: 'destination.ttl',
+        dataSelector: new DataSelectorSequential(),
+      });
+      await enhancer.generate();
+    });
+
     it('should run all handlers', async() => {
       await enhancer.generate();
       const context = {

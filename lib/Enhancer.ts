@@ -35,7 +35,7 @@ export class Enhancer {
     this.staticPath = options.staticPath;
     this.destinationPathData = options.destinationPathData;
     this.dataSelector = options.dataSelector;
-    this.handlers = options.handlers;
+    this.handlers = options.handlers || [];
     this.logger = options.logger;
     this.parameterEmitterPosts = options.parameterEmitterPosts;
     this.parameterEmitterComments = options.parameterEmitterComments;
@@ -242,7 +242,7 @@ export interface IEnhancerOptions {
   /**
    * Enhancement handlers.
    */
-  handlers: IEnhancementHandler[];
+  handlers?: IEnhancementHandler[];
   /**
    * Logger.
    */
