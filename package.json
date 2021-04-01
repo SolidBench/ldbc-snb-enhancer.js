@@ -1,6 +1,6 @@
 {
   "name": "ldbc-snb-enhancer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generates auxiliary data based on an LDBC SNB dataset",
   "keywords": [
     "rdf",
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/rubensworks/ldbc-snb-enhancer.js#readme",
   "bin": {
-    "ldbc-snb-enhancer": "./bin/runner.js"
+    "ldbc-snb-enhancer": "bin/runner.js"
   },
   "license": "MIT",
   "lsd:module": true,
