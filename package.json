@@ -1,6 +1,6 @@
 {
   "name": "ldbc-snb-enhancer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generates auxiliary data based on an LDBC SNB dataset",
   "keywords": [
     "rdf",
