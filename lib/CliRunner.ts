@@ -4,7 +4,22 @@ import { ComponentsManager } from 'componentsjs';
 import type { Enhancer } from './Enhancer';
 
 /**
- * Generic run function for starting the fragmenter from a given config
+ * Run function for starting the enhancer for a given config.
+ * @param configPath - Path to a config.
+ * @param properties - Components loader properties.
+ */
+export const runConfig = async function(
+  configPath: string,
+  properties: IComponentsManagerBuilderOptions<Enhancer>,
+): Promise<void> {
+  const manager = await ComponentsManager.build(properties);
+  await manager.configRegistry.register(configPath);
+  const enhancer: Enhancer = await manager.instantiate('urn:ldbc-snb-enhancer:default');
+  return await enhancer.generate();
+};
+
+/**
+ * Generic run function for starting the enhancer from a given config
  * @param args - Command line arguments.
  * @param stdin - Standard input stream.
  * @param stdout - Standard output stream.
@@ -29,10 +44,7 @@ Usage:
     const configPath = args[0];
 
     // Setup from config file
-    const manager = await ComponentsManager.build(properties);
-    await manager.configRegistry.register(configPath);
-    const enhancer: Enhancer = await manager.instantiate('urn:ldbc-snb-enhancer:default');
-    return await enhancer.generate();
+    return await runConfig(configPath, properties);
   })().then((): void => {
     // Done
   }).catch(error => {
