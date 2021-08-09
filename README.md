@@ -1,6 +1,6 @@
 # LDBC SNB Enhancer
 
-[![Build Status](https://travis-ci.com/rubensworks/ldbc-snb-enhancer.js.svg?branch=master)](https://travis-ci.com/rubensworks/ldbc-snb-enhancer.js)
+[![Build status](https://github.com/rubensworks/ldbc-snb-enhancer.js/workflows/CI/badge.svg)](https://github.com/rubensworks/ldbc-snb-enhancer.js/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/ldbc-snb-enhancer.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/ldbc-snb-enhancer.js?branch=master)
 [![npm version](https://badge.fury.io/js/ldbc-snb-enhancer.svg)](https://www.npmjs.com/package/ldbc-snb-enhancer)
 
