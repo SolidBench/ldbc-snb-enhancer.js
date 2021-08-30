@@ -1,5 +1,5 @@
 import type { Writable } from 'stream';
-import type * as RDF from 'rdf-js';
+import type * as RDF from '@rdfjs/types';
 import type { IParameterEmitter } from '../parameters/IParameterEmitter';
 import type { IEnhancementContext } from './IEnhancementContext';
 import type { IEnhancementHandler } from './IEnhancementHandler';

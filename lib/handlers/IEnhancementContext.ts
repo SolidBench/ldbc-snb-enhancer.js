@@ -1,4 +1,4 @@
-import type * as RDF from 'rdf-js';
+import type * as RDF from '@rdfjs/types';
 import type { RdfObjectLoader } from 'rdf-object';
 import type { IDataSelector } from '../selector/IDataSelector';
 

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import type { Writable } from 'stream';
 import { PassThrough } from 'stream';
-import type * as RDF from 'rdf-js';
+import type * as RDF from '@rdfjs/types';
 import { RdfObjectLoader } from 'rdf-object';
 import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
