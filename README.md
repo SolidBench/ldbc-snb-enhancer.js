@@ -44,7 +44,7 @@ The config file that should be passed to the command line tool has the following
 
 ```json
 {
-  "@context": "https://linkedsoftwaredependencies.org/bundles/npm/ldbc-snb-enhancer/^1.0.0/components/context.jsonld",
+  "@context": "https://linkedsoftwaredependencies.org/bundles/npm/ldbc-snb-enhancer/^2.0.0/components/context.jsonld",
   "@id": "urn:ldbc-snb-enhancer:default",
   "@type": "Enhancer",
   "personsPath": "path/to/social_network_person_0_0.ttl",
