@@ -47,34 +47,34 @@ The config file that should be passed to the command line tool has the following
   "@context": "https://linkedsoftwaredependencies.org/bundles/npm/ldbc-snb-enhancer/^1.0.0/components/context.jsonld",
   "@id": "urn:ldbc-snb-enhancer:default",
   "@type": "Enhancer",
-  "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
-  "Enhancer:_options_activitiesPath": "path/to/social_network_activity_0_0.ttl",
-  "Enhancer:_options_staticPath": "path/to/social_network_static_0_0.ttl",
-  "Enhancer:_options_destinationPathData": "path/to/social_network_auxiliary.ttl",
-  "Enhancer:_options_logger": {
+  "personsPath": "path/to/social_network_person_0_0.ttl",
+  "activitiesPath": "path/to/social_network_activity_0_0.ttl",
+  "staticPath": "path/to/social_network_static_0_0.ttl",
+  "destinationPathData": "path/to/social_network_auxiliary.ttl",
+  "logger": {
     "@type": "LoggerStdout"
   },
-  "Enhancer:_options_dataSelector": {
+  "dataSelector": {
     "@type": "DataSelectorRandom",
-    "DataSelectorRandom:_seed": 12345
+    "seed": 12345
   },
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPersonNames",
-      "EnhancementHandlerPersonNames:_chance": 0.3
+      "chance": 0.3
     }
   ]
 }
 ```
 
 The important parts in this config file are:
-* `"Enhancer:_options_personsPath"`: Path to the persons output file of [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen).
-* `"Enhancer:_options_destinationPath"`: Path of the destination file to create.
-* `"Enhancer:_options_logger"`: An optional logger for tracking the generation process. (`LoggerStdout` prints to standard output)
-* `"Enhancer:_options_dataSelector"`: A strategy for selecting values from a collection. (`DataSelectorRandom` selects random values based on a given seed)
-* `"Enhancer:_options_handlers"`: An array of enhancement handlers, which are strategies for generating data.
-* `"Enhancer:_options_parameterEmitterPosts""`: An optional parameter emitter for the extracted posts.
-* `"Enhancer:_options_parameterEmitterComments""`: An optional parameter emitter for the extracted comments.
+* `"personsPath"`: Path to the persons output file of [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen).
+* `"destinationPath"`: Path of the destination file to create.
+* `"logger"`: An optional logger for tracking the generation process. (`LoggerStdout` prints to standard output)
+* `"dataSelector"`: A strategy for selecting values from a collection. (`DataSelectorRandom` selects random values based on a given seed)
+* `"handlers"`: An array of enhancement handlers, which are strategies for generating data.
+* `"parameterEmitterPosts""`: An optional parameter emitter for the extracted posts.
+* `"parameterEmitterComments""`: An optional parameter emitter for the extracted comments.
 
 ## Configure
 
@@ -89,18 +89,18 @@ People are selected randomly from the friends that are known by the given person
 
 ```json
 {
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPersonNames",
-      "EnhancementHandlerPersonNames:_chance": 0.3
+      "chance": 0.3
     }
   ]
 }
 ```
 
 Parameters:
-* `"EnhancementHandlerPersonNames:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
-* `"EnhancementHandlerPersonNames:_parameterEmitter""`: An optional parameter emitter.
+* `"chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
+* `"parameterEmitter""`: An optional parameter emitter.
 
 Generated shape:
 ```turtle
@@ -119,18 +119,18 @@ This is a variant of the Person Names Handler.
 
 ```json
 {
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPersonNamesCities",
-      "EnhancementHandlerPersonNamesCities:_chance": 0.3
+      "chance": 0.3
     }
   ]
 }
 ```
 
 Parameters:
-* `"EnhancementHandlerPersonNamesCities:_chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
-* `"EnhancementHandlerPersonNamesCities:_parameterEmitter""`: An optional parameter emitter.
+* `"chance"`: The chance for a name to be generated. The number of new names will be the number of people times this chance, where names are randomly assigned to names.
+* `"parameterEmitter""`: An optional parameter emitter.
 
 Generated shape:
 ```turtle
@@ -146,17 +146,17 @@ Generate posts and assign them to existing people.
 
 ```json
 {
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPosts",
-      "EnhancementHandlerPosts:_chance": 0.3
+      "chance": 0.3
     }
   ]
 }
 ```
 
 Parameters:
-* `"EnhancementHandlerPosts:_chance"`: The chance for posts to be generated. The number of posts will be the number of people times this chance, where people are randomly assigned to posts.
+* `"chance"`: The chance for posts to be generated. The number of posts will be the number of people times this chance, where people are randomly assigned to posts.
 
 Generated shape:
 ```turtle
@@ -180,17 +180,17 @@ Generate comments and assign them to existing people as reply to existing posts
 
 ```json
 {
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerComments",
-      "EnhancementHandlerComments:_chance": 0.3
+      "chance": 0.3
     }
   ]
 }
 ```
 
 Parameters:
-* `"EnhancementHandlerComments:_chance"`: The chance for comments to be generated. The number of comments will be the number of people times this chance, where people are randomly assigned to comments.
+* `"chance"`: The chance for comments to be generated. The number of comments will be the number of people times this chance, where people are randomly assigned to comments.
 
 Generated shape:
 ```turtle
@@ -215,17 +215,17 @@ Generate additional contents for existing posts.
 
 ```json
 {
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPostContents",
-      "EnhancementHandlerPostContents:_chance": 0.3
+      "chance": 0.3
     }
   ]
 }
 ```
 
 Parameters:
-* `"EnhancementHandlerPostContents:_chance"`: The chance for post content to be generated. The number of new post contents will be the number of posts times this chance, where contents are randomly assigned to posts. @range {double}
+* `"chance"`: The chance for post content to be generated. The number of new post contents will be the number of posts times this chance, where contents are randomly assigned to posts. @range {double}
 
 Generated shape:
 ```turtle
@@ -240,17 +240,17 @@ Generate additional authors for existing posts.
 
 ```json
 {
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPostAuthors",
-      "EnhancementHandlerPostAuthors:_chance": 0.3
+      "chance": 0.3
     }
   ]
 }
 ```
 
 Parameters:
-* `"EnhancementHandlerPostAuthors:_chance"`: The chance for a post author to be generated. The number of new post authors will be the number of posts times this chance, where authors are randomly assigned to posts.
+* `"chance"`: The chance for a post author to be generated. The number of new post authors will be the number of posts times this chance, where authors are randomly assigned to posts.
 
 Generated shape:
 ```turtle
@@ -271,13 +271,13 @@ Emits parameters as CSV files.
 
 ```json
 {
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPersonNames",
-      "EnhancementHandlerPersonNames:_chance": 0.3,
-      "EnhancementHandlerPersonNames:_parameterEmitter": {
+      "chance": 0.3,
+      "parameterEmitter": {
         "@type": "ParameterEmitterCsv",
-        "ParameterEmitterCsv:_destinationPath": "parameters-person-names.csv"
+        "destinationPath": "parameters-person-names.csv"
       }
     }
   ]

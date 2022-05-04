@@ -2,37 +2,37 @@
   "@context": "https://linkedsoftwaredependencies.org/bundles/npm/ldbc-snb-enhancer/^1.0.0/components/context.jsonld",
   "@id": "urn:ldbc-snb-enhancer:default",
   "@type": "Enhancer",
-  "Enhancer:_options_personsPath": "path/to/social_network_person_0_0.ttl",
-  "Enhancer:_options_activitiesPath": "path/to/social_network_activity_0_0.ttl",
-  "Enhancer:_options_staticPath": "path/to/social_network_static_0_0.ttl",
-  "Enhancer:_options_destinationPathData": "path/to/social_network_auxiliary.ttl",
-  "Enhancer:_options_logger": {
+  "personsPath": "path/to/social_network_person_0_0.ttl",
+  "activitiesPath": "path/to/social_network_activity_0_0.ttl",
+  "staticPath": "path/to/social_network_static_0_0.ttl",
+  "destinationPathData": "path/to/social_network_auxiliary.ttl",
+  "logger": {
     "@type": "LoggerStdout"
   },
-  "Enhancer:_options_dataSelector": {
+  "dataSelector": {
     "@type": "DataSelectorRandom",
-    "DataSelectorRandom:_seed": 12345
+    "seed": 12345
   },
-  "Enhancer:_options_handlers": [
+  "handlers": [
     {
       "@type": "EnhancementHandlerPersonNames",
-      "EnhancementHandlerPersonNames:_chance": 0.3,
-      "EnhancementHandlerPersonNames:_parameterEmitter": {
+      "chance": 0.3,
+      "parameterEmitter": {
         "@type": "ParameterEmitterCsv",
-        "ParameterEmitterCsv:_destinationPath": "path/to/parameters-person-names.csv"
+        "destinationPath": "path/to/parameters-person-names.csv"
       }
     },
     {
       "@type": "EnhancementHandlerPosts",
-      "EnhancementHandlerPosts:_chance": 0.3
+      "chance": 0.3
     },
     {
       "@type": "EnhancementHandlerPostContents",
-      "EnhancementHandlerPostContents:_chance": 0.1
+      "chance": 0.1
     },
     {
       "@type": "EnhancementHandlerPostAuthors",
-      "EnhancementHandlerPostAuthors:_chance": 0.1
+      "chance": 0.1
     }
   ]
 }
