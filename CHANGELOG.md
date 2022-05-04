@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.0.0"></a>
+## [v2.0.0](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v1.2.0...v2.0.0) - 2022-05-04
+
+### Changed
+* [Update to Components.js 5](https://github.com/rubensworks/ldbc-snb-enhancer.js/commit/dd2fed0da72bcb238ae85d79c3fe7402193b4f46)
+
 <a name="v1.2.0"></a>
 ## [v1.2.0](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v1.1.0...v1.2.0) - 2021-08-30
 
