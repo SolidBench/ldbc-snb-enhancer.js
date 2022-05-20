@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.1.1"></a>
+## [v2.1.1](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v2.0.0...v2.1.1) - 2022-05-20
+
+### Fixed
+* [Fix noise data not generating type triples](https://github.com/rubensworks/ldbc-snb-enhancer.js/commit/e764278c47db5f8678a3f7deea2716c000a4e7ed)
+
 <a name="v2.1.0"></a>
 ## [v2.1.0](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v2.0.0...v2.1.0) - 2022-05-20
 
