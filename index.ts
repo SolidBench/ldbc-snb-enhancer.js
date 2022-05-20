@@ -1,6 +1,7 @@
 export * from './lib/handlers/EnhancementHandlerComments';
 export * from './lib/handlers/EnhancementHandlerPersonNames';
 export * from './lib/handlers/EnhancementHandlerPersonNamesCities';
+export * from './lib/handlers/EnhancementHandlerPersonNoise';
 export * from './lib/handlers/EnhancementHandlerPostAuthors';
 export * from './lib/handlers/EnhancementHandlerPostContents';
 export * from './lib/handlers/EnhancementHandlerPosts';
