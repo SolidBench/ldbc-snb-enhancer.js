@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.1.0"></a>
+## [v2.1.0](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v2.0.0...v2.1.0) - 2022-05-20
+
+### Added
+* [Add person noise handler](https://github.com/rubensworks/ldbc-snb-enhancer.js/commit/d6777bd3a3b3b869b6634f7107785ae402cc4a09)
+
 <a name="v2.0.0"></a>
 ## [v2.0.0](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v1.2.0...v2.0.0) - 2022-05-04
 
