@@ -28,6 +28,7 @@ export class EnhancementHandlerPersonNoise implements IEnhancementHandler {
       // Create resource
       const resource = context.rdfObjectLoader.createCompactedResource({
         '@id': `${person.value}-noise-${i}`,
+        type: 'snvoc:Noise',
         'snvoc:noise': `"NOISE-${i}"`,
         'snvoc:hasCreator': person.value,
       });

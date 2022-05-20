@@ -53,11 +53,13 @@ describe('EnhancementHandlerPersonNoise', () => {
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:per1-noise-0',
+          type: 'snvoc:Noise',
           'snvoc:noise': '"NOISE-0"',
           'snvoc:hasCreator': 'ex:per1',
         },
         {
           '@id': 'ex:per2-noise-1',
+          type: 'snvoc:Noise',
           'snvoc:noise': '"NOISE-1"',
           'snvoc:hasCreator': 'ex:per2',
         },
