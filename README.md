@@ -140,6 +140,32 @@ Generated shape:
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://dbpedia.org/resource/Dingzhou>.
 ```
 
+#### Person Noise Handler
+
+Generate additional triples attached to existing people.
+People are selected randomly.
+
+```json
+{
+  "handlers": [
+    {
+      "@type": "EnhancementHandlerPersonNoise",
+      "chance": 0.3
+    }
+  ]
+}
+```
+
+Parameters:
+* `"chance"`: The chance for an additional triple to be generated. The number of new triples will be the number of people times this chance. This value can be larger than 1 to generate multiple triples per person.
+
+Generated shape:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471-noise-1> 
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/noise> "NOISE-1";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471>.
+```
+
 #### Posts Handler
 
 Generate posts and assign them to existing people.
