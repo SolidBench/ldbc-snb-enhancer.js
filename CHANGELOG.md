@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.2.0"></a>
+## [v2.2.0](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v2.1.1...v2.2.0) - 2022-06-23
+
+### Added
+* [Add vocabulary handler](https://github.com/rubensworks/ldbc-snb-enhancer.js/commit/bfbb111b25b60eca96166f588c91e59a492a5a96)
+
 <a name="v2.1.1"></a>
 ## [v2.1.1](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v2.0.0...v2.1.1) - 2022-05-20
 
