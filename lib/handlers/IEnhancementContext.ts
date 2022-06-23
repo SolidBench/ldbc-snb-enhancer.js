@@ -43,4 +43,12 @@ export interface IEnhancementContext {
    * An array of IRIs of all cities in the dataset.
    */
   cities: RDF.NamedNode[];
+  /**
+   * An array of all predicates.
+   */
+  predicates: RDF.NamedNode[];
+  /**
+   * An array of all classes.
+   */
+  classes: RDF.NamedNode[];
 }

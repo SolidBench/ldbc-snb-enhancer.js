@@ -285,6 +285,27 @@ Generated shape:
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000019791209301543>.
 ```
 
+#### Vocabuary Handler
+
+Generates vocabulary information.
+
+```json
+{
+  "handlers": [
+    {
+      "@type": "EnhancementHandlerVocabulary"
+    }
+  ]
+}
+```
+
+Generated shape:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> a rdf:Property.
+<http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> a rdf:Property.
+<http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person> a rdfs:Class.
+```
+
 ### Parameter Emitters
 
 Certain handlers allow their internal parameters to be emitted.

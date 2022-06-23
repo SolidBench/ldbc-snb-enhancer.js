@@ -35,6 +35,8 @@ describe('EnhancementHandlerPosts', () => {
       posts: [],
       comments: [],
       cities: [],
+      predicates: [],
+      classes: [],
     };
     await context.rdfObjectLoader.context;
   });

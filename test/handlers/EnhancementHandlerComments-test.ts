@@ -44,6 +44,8 @@ describe('EnhancementHandlerComments', () => {
       ],
       comments: [],
       cities: [],
+      predicates: [],
+      classes: [],
     };
     await context.rdfObjectLoader.context;
   });
