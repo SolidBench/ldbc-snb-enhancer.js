@@ -60,6 +60,8 @@ describe('EnhancementHandlerPersonNames', () => {
         DF.namedNode('ex:cit3'),
         DF.namedNode('ex:cit4'),
       ],
+      predicates: [],
+      classes: [],
     };
     await context.rdfObjectLoader.context;
   });

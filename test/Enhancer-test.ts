@@ -111,6 +111,13 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        predicates: [
+          DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/isLocatedIn'),
+        ],
+        classes: [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person'),
+        ],
       };
       expect(handlers[0].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
       expect(handlers[1].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
@@ -153,6 +160,13 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        predicates: [
+          DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/isLocatedIn'),
+        ],
+        classes: [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person'),
+        ],
       };
       expect(handlers[0].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
       expect(handlers[1].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
@@ -172,6 +186,10 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
         peopleLocatedInCities: {},
         peopleKnownBy: {},
         peopleKnows: {},
+        predicates: [
+          DF.namedNode('ex:p'),
+        ],
+        classes: [],
       });
     });
 
@@ -182,6 +200,8 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
         peopleLocatedInCities: {},
         peopleKnownBy: {},
         peopleKnows: {},
+        predicates: [],
+        classes: [],
       });
     });
 

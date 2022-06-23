@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import type { Writable } from 'stream';
 import { PassThrough } from 'stream';
 import type * as RDF from '@rdfjs/types';
+import { DataFactory } from 'rdf-data-factory';
 import { RdfObjectLoader } from 'rdf-object';
 import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
@@ -10,6 +11,8 @@ import type { IEnhancementHandler } from './handlers/IEnhancementHandler';
 import type { ILogger } from './logging/ILogger';
 import type { IParameterEmitter } from './parameters/IParameterEmitter';
 import type { IDataSelector } from './selector/IDataSelector';
+
+const DF = new DataFactory();
 
 /**
  * Enhances a given dataset.
@@ -62,7 +65,14 @@ export class Enhancer {
 
     // Prepare context
     this.logger?.log('Reading background data: people');
-    const { people, peopleLocatedInCities, peopleKnows, peopleKnownBy } = await this.extractPeople();
+    const {
+      people,
+      peopleLocatedInCities,
+      peopleKnows,
+      peopleKnownBy,
+      predicates,
+      classes,
+    } = await this.extractPeople();
     this.logger?.log('Reading background data: activities');
     const { posts, comments } = await this.extractActivities();
     this.logger?.log('Reading background data: cities');
@@ -77,6 +87,8 @@ export class Enhancer {
       posts,
       comments,
       cities,
+      predicates,
+      classes,
     };
 
     // Generate data
@@ -95,6 +107,8 @@ export class Enhancer {
     peopleLocatedInCities: Record<string, RDF.NamedNode>;
     peopleKnows: Record<string, RDF.NamedNode[]>;
     peopleKnownBy: Record<string, RDF.NamedNode[]>;
+    predicates: RDF.NamedNode[];
+    classes: RDF.NamedNode[];
   }> {
     return new Promise((resolve, reject) => {
       // Prepare RDF terms to compare with
@@ -108,6 +122,8 @@ export class Enhancer {
       const peopleLocatedInCities: Record<string, RDF.NamedNode> = {};
       const peopleKnows: Record<string, RDF.NamedNode[]> = {};
       const peopleKnownBy: Record<string, RDF.NamedNode[]> = {};
+      const predicates: Set<string> = new Set<string>();
+      const classes: Set<string> = new Set<string>();
       const stream = rdfParser.parse(fs.createReadStream(this.personsPath), { path: this.personsPath });
 
       // Temporary variables to determine knows relationships
@@ -155,9 +171,24 @@ export class Enhancer {
           currentKnowsPerson = undefined;
           currentKnowsNode = undefined;
         }
+
+        // Determine predicates
+        predicates.add(quad.predicate.value);
+
+        // Determine classes
+        if (quad.predicate.equals(termType)) {
+          classes.add(quad.object.value);
+        }
       });
       stream.on('end', () => {
-        resolve({ people, peopleLocatedInCities, peopleKnows, peopleKnownBy });
+        resolve({
+          people,
+          peopleLocatedInCities,
+          peopleKnows,
+          peopleKnownBy,
+          predicates: [ ...predicates ].map(value => DF.namedNode(value)),
+          classes: [ ...classes ].map(value => DF.namedNode(value)),
+        });
       });
     });
   }

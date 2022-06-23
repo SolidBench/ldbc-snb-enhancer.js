@@ -35,6 +35,8 @@ describe('EnhancementHandlerPersonNoise', () => {
       posts: [],
       comments: [],
       cities: [],
+      predicates: [],
+      classes: [],
     };
     await context.rdfObjectLoader.context;
   });

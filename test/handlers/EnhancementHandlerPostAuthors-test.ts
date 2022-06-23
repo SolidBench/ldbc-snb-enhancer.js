@@ -44,6 +44,8 @@ describe('EnhancementHandlerPostAuthors', () => {
       ],
       comments: [],
       cities: [],
+      predicates: [],
+      classes: [],
     };
     await context.rdfObjectLoader.context;
   });
