@@ -1,7 +1,7 @@
 # LDBC SNB Enhancer
 
-[![Build status](https://github.com/rubensworks/ldbc-snb-enhancer.js/workflows/CI/badge.svg)](https://github.com/rubensworks/ldbc-snb-enhancer.js/actions?query=workflow%3ACI)
-[![Coverage Status](https://coveralls.io/repos/github/rubensworks/ldbc-snb-enhancer.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/ldbc-snb-enhancer.js?branch=master)
+[![Build status](https://github.com/SolidBench/ldbc-snb-enhancer.js/workflows/CI/badge.svg)](https://github.com/SolidBench/ldbc-snb-enhancer.js/actions?query=workflow%3ACI)
+[![Coverage Status](https://coveralls.io/repos/github/SolidBench/ldbc-snb-enhancer.js/badge.svg?branch=master)](https://coveralls.io/github/SolidBench/ldbc-snb-enhancer.js?branch=master)
 [![npm version](https://badge.fury.io/js/ldbc-snb-enhancer.svg)](https://www.npmjs.com/package/ldbc-snb-enhancer)
 
 Generates auxiliary data based on an [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen) social network dataset.

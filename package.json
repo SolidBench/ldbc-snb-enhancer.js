@@ -12,12 +12,12 @@
   ],
   "main": "index.js",
   "typings": "index",
-  "repository": "git@github.com:rubensworks/ldbc-snb-enhancer.js.git",
+  "repository": "git@github.com:SolidBench/ldbc-snb-enhancer.js.git",
   "author": "Ruben Taelman <rubensworks@gmail.com>",
   "bugs": {
-    "url": "https://github.com/rubensworks/ldbc-snb-enhancer.js/issues"
+    "url": "https://github.com/SolidBench/ldbc-snb-enhancer.js/issues"
   },
-  "homepage": "https://github.com/rubensworks/ldbc-snb-enhancer.js#readme",
+  "homepage": "https://github.com/SolidBench/ldbc-snb-enhancer.js#readme",
   "bin": {
     "ldbc-snb-enhancer": "bin/runner.js"
   },
