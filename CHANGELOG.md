@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.2.1"></a>
+## [v2.2.1](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.1.1...v2.2.1) - 2022-11-09
+
+### Fixed
+* [Include source map files in packed files](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/49b395000fd1f8487136e723a5ac0201c061a725)
+
 <a name="v2.2.0"></a>
 ## [v2.2.0](https://github.com/rubensworks/ldbc-snb-enhancer.js/compare/v2.1.1...v2.2.0) - 2022-06-23
 
