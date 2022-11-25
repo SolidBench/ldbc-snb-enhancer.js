@@ -2,7 +2,7 @@ import { PassThrough } from 'stream';
 import { DataFactory } from 'rdf-data-factory';
 import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
-import { EnhancementHandlerVocabularyDomain } from '../../lib/handlers/EnhancementHandlerVocabularyDomain';
+import { EnhancementHandlerVocabularyPredicateDomain } from '../../lib/handlers/EnhancementHandlerVocabularyPredicateDomain';
 import type { IEnhancementContext } from '../../lib/handlers/IEnhancementContext';
 import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
@@ -10,14 +10,14 @@ import 'jest-rdf';
 const arrayifyStream = require('arrayify-stream');
 const DF = new DataFactory();
 
-describe('EnhancementHandlerVocabularyDomain', () => {
-  let handler: EnhancementHandlerVocabularyDomain;
+describe('EnhancementHandlerVocabularyPredicateDomain', () => {
+  let handler: EnhancementHandlerVocabularyPredicateDomain;
   let stream: PassThrough;
   let rdfObjectLoader: RdfObjectLoader;
   let context: IEnhancementContext;
 
   beforeEach(async() => {
-    handler = new EnhancementHandlerVocabularyDomain('ex:class', 'ex:predicate');
+    handler = new EnhancementHandlerVocabularyPredicateDomain('ex:class', 'ex:predicate');
     stream = new PassThrough({ objectMode: true });
     rdfObjectLoader = new RdfObjectLoader({ context: Enhancer.CONTEXT_LDBC_SNB });
     context = {
