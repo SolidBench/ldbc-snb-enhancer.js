@@ -7,7 +7,7 @@ import type { IEnhancementHandler } from './IEnhancementHandler';
 const DF = new DataFactory();
 
 /**
- * Generates vocabulary domain information.
+ * Generates vocabulary information about the domain of a specific predicate
  */
 export class EnhancementHandlerVocabularyPredicateDomain implements IEnhancementHandler {
   private readonly classIRI: string;

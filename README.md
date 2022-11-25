@@ -308,13 +308,13 @@ Generated shape:
 
 #### Vocabuary Predicate Domain Handler
 
-Generates vocabulary information.
+Generates vocabulary information about the domain of a specific predicate.
 
 ```json
 {
   "handlers": [
      {
-      "@type": "EnhancementHandlerVocabularyDomain",
+      "@type": "EnhancementHandlerVocabularyPredicateDomain",
       "classIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment",
       "predicateIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP"
     }
