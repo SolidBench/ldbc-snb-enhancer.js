@@ -2,10 +2,10 @@
   "@context": "https://linkedsoftwaredependencies.org/bundles/npm/ldbc-snb-enhancer/^2.0.0/components/context.jsonld",
   "@id": "urn:ldbc-snb-enhancer:default",
   "@type": "Enhancer",
-  "personsPath": "out-snb/social_network/social_network_person_0_0.ttl",
-  "activitiesPath": "out-snb/social_network/social_network_activity_0_0.ttl",
-  "staticPath": "out-snb/social_network/social_network_static_0_0.ttl",
-  "destinationPathData": "out-enhanced/social_network_auxiliary.ttl",
+  "personsPath": "path/to/social_network_person_0_0.ttl",
+  "activitiesPath": "path/to/social_network_activity_0_0.ttl",
+  "staticPath": "path/to/social_network_static_0_0.ttl",
+  "destinationPathData": "path/to/social_network_auxiliary.ttl",
   "logger": {
     "@type": "LoggerStdout"
   },
@@ -13,22 +13,26 @@
     "@type": "DataSelectorRandom",
     "seed": 12345
   },
-  "parameterEmitterPosts": {
-    "@type": "ParameterEmitterCsv",
-    "destinationPath": "out-enhanced/parameters-posts.csv"
-  },
   "handlers": [
     {
-      "@type": "EnhancementHandlerPersonNoise",
-      "chance": 10
+      "@type": "EnhancementHandlerPersonNames",
+      "chance": 0.3,
+      "parameterEmitter": {
+        "@type": "ParameterEmitterCsv",
+        "destinationPath": "path/to/parameters-person-names.csv"
+      }
     },
     {
-      "@type": "EnhancementHandlerVocabulary"
+      "@type": "EnhancementHandlerPosts",
+      "chance": 0.3
     },
     {
-      "@type": "EnhancementHandlerVocabularyDomain",
-      "classIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment",
-      "predicateIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP"
+      "@type": "EnhancementHandlerPostContents",
+      "chance": 0.1
+    },
+    {
+      "@type": "EnhancementHandlerPostAuthors",
+      "chance": 0.1
     }
   ]
 }
