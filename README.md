@@ -306,6 +306,28 @@ Generated shape:
 <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person> a rdfs:Class.
 ```
 
+#### Vocabuary Predicate Domain Handler
+
+Generates vocabulary information about the domain of a specific predicate.
+
+```json
+{
+  "handlers": [
+     {
+      "@type": "EnhancementHandlerVocabularyPredicateDomain",
+      "classIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment",
+      "predicateIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP"
+    }
+  ]
+}
+```
+
+Generated shape:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP> rdfs:domain
+<http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment>.
+```
+
 ### Parameter Emitters
 
 Certain handlers allow their internal parameters to be emitted.

@@ -6,6 +6,7 @@ export * from './lib/handlers/EnhancementHandlerPostAuthors';
 export * from './lib/handlers/EnhancementHandlerPostContents';
 export * from './lib/handlers/EnhancementHandlerPosts';
 export * from './lib/handlers/EnhancementHandlerVocabulary';
+export * from './lib/handlers/EnhancementHandlerVocabularyPredicateDomain';
 export * from './lib/handlers/IEnhancementContext';
 export * from './lib/handlers/IEnhancementHandler';
 export * from './lib/logging/ILogger';
