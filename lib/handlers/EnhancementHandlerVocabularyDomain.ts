@@ -9,7 +9,7 @@ const DF = new DataFactory();
 /**
  * Generates vocabulary domain information.
  */
-export class EnhancementHandlerVocabularyDomain implements IEnhancementHandler {
+export class EnhancementHandlerVocabularyPredicateDomain implements IEnhancementHandler {
   private readonly classIRI: string;
   private readonly predicateIRI: string;
 
