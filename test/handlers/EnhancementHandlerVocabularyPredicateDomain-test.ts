@@ -2,7 +2,8 @@ import { PassThrough } from 'stream';
 import { DataFactory } from 'rdf-data-factory';
 import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
-import { EnhancementHandlerVocabularyPredicateDomain } from '../../lib/handlers/EnhancementHandlerVocabularyPredicateDomain';
+import { EnhancementHandlerVocabularyPredicateDomain } from
+ '../../lib/handlers/EnhancementHandlerVocabularyPredicateDomain';
 import type { IEnhancementContext } from '../../lib/handlers/IEnhancementContext';
 import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
