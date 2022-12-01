@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.3.0"></a>
+## [v2.3.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.2.1...v2.3.0) - 2022-11-25
+
+### Added
+* [Add Predicate Domain vocabulary handler](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/ee1c8f3a0fccf892f5b2732f9f2a8a341fe037f4)
+
 <a name="v2.2.1"></a>
 ## [v2.2.1](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.1.1...v2.2.1) - 2022-11-09
 
