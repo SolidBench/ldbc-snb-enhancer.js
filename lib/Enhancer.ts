@@ -211,13 +211,11 @@ export class Enhancer {
 
       const posts: RDF.NamedNode[] = [];
       const comments: RDF.NamedNode[] = [];
-      const activityClasses: Set<string> = new Set<string>();
       const stream = rdfParser.parse(fs.createReadStream(this.activitiesPath), { path: this.activitiesPath });
       stream.on('error', reject);
       stream.on('data', (quad: RDF.Quad) => {
         if (quad.subject.termType === 'NamedNode' &&
           quad.predicate.equals(termType)) {
-          activityClasses.add(quad.object.value);
           if (quad.object.equals(termPost)) {
             posts.push(quad.subject);
             // Emit parameters
@@ -232,7 +230,7 @@ export class Enhancer {
       stream.on('end', () => {
         this.parameterEmitterPosts?.flush();
         this.parameterEmitterComments?.flush();
-        resolve({ posts, comments, activityClasses: [ ...activityClasses ].map(value => DF.namedNode(value)) });
+        resolve({ posts, comments, activityClasses: [ DF.namedNode(termPost.value), DF.namedNode(termComment.value) ]});
       });
     });
   }
