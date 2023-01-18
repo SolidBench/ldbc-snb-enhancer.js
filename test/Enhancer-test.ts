@@ -117,6 +117,8 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
         ],
         classes: [
           DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment'),
         ],
       };
       expect(handlers[0].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
@@ -166,6 +168,8 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
         ],
         classes: [
           DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment'),
         ],
       };
       expect(handlers[0].generate).toHaveBeenCalledWith(expect.any(PassThrough), context);
@@ -189,7 +193,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
         predicates: [
           DF.namedNode('ex:p'),
         ],
-        classes: [],
+        personClasses: [],
       });
     });
 
@@ -201,7 +205,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
         peopleKnownBy: {},
         peopleKnows: {},
         predicates: [],
-        classes: [],
+        personClasses: [],
       });
     });
 
@@ -278,6 +282,10 @@ sn:bla rdf:type snvoc:other .`;
       expect(await enhancer.extractActivities()).toEqual({
         posts: [],
         comments: [],
+        activityClasses: [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment'),
+        ],
       });
     });
 
@@ -286,6 +294,10 @@ sn:bla rdf:type snvoc:other .`;
       expect(await enhancer.extractActivities()).toEqual({
         posts: [],
         comments: [],
+        activityClasses: [
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post'),
+          DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment'),
+        ],
       });
     });
 

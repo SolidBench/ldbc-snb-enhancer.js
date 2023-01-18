@@ -71,12 +71,13 @@ export class Enhancer {
       peopleKnows,
       peopleKnownBy,
       predicates,
-      classes,
+      personClasses,
     } = await this.extractPeople();
     this.logger?.log('Reading background data: activities');
-    const { posts, comments } = await this.extractActivities();
+    const { posts, comments, activityClasses } = await this.extractActivities();
     this.logger?.log('Reading background data: cities');
     const cities = await this.extractCities();
+    const classes: RDF.NamedNode[] = personClasses.concat(activityClasses);
     const context: IEnhancementContext = {
       rdfObjectLoader: this.rdfObjectLoader,
       dataSelector: this.dataSelector,
@@ -108,7 +109,7 @@ export class Enhancer {
     peopleKnows: Record<string, RDF.NamedNode[]>;
     peopleKnownBy: Record<string, RDF.NamedNode[]>;
     predicates: RDF.NamedNode[];
-    classes: RDF.NamedNode[];
+    personClasses: RDF.NamedNode[];
   }> {
     return new Promise((resolve, reject) => {
       // Prepare RDF terms to compare with
@@ -187,14 +188,22 @@ export class Enhancer {
           peopleKnows,
           peopleKnownBy,
           predicates: [ ...predicates ].map(value => DF.namedNode(value)),
-          classes: [ ...classes ].map(value => DF.namedNode(value)),
+          personClasses: [ ...classes ].map(value => DF.namedNode(value)),
         });
       });
     });
   }
 
-  public extractActivities(): Promise<{ posts: RDF.NamedNode[]; comments: RDF.NamedNode[] }> {
-    return new Promise<{ posts: RDF.NamedNode[]; comments: RDF.NamedNode[] }>((resolve, reject) => {
+  public extractActivities(): Promise<{
+    posts: RDF.NamedNode[];
+    comments: RDF.NamedNode[];
+    activityClasses: RDF.NamedNode[];
+  }> {
+    return new Promise<{
+      posts: RDF.NamedNode[];
+      comments: RDF.NamedNode[];
+      activityClasses: RDF.NamedNode[];
+    }>((resolve, reject) => {
       // Prepare RDF terms to compare with
       const termType = this.rdfObjectLoader.createCompactedResource('rdf:type').term;
       const termPost = this.rdfObjectLoader.createCompactedResource('snvoc:Post').term;
@@ -221,7 +230,7 @@ export class Enhancer {
       stream.on('end', () => {
         this.parameterEmitterPosts?.flush();
         this.parameterEmitterComments?.flush();
-        resolve({ posts, comments });
+        resolve({ posts, comments, activityClasses: [ DF.namedNode(termPost.value), DF.namedNode(termComment.value) ]});
       });
     });
   }
