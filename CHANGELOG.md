@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.4.0"></a>
+## [v2.4.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.3.0...v2.4.0) - 2023-01-18
+
+### Added
+* [Add Post and Comment to vocabulary](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/65808ce08050f3c602ceac70a6bd48a313191a29)
+
 <a name="v2.3.0"></a>
 ## [v2.3.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.2.1...v2.3.0) - 2022-11-25
 
