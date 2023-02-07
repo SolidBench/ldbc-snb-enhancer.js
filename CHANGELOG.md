@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.5.0"></a>
+## [v2.5.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.4.0...v2.5.0) - 2023-02-07
+
+### Added
+* [Add posts multiplication handler](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/60ba611b7abec2658aa46860429bba21e2e772d1)
+
 <a name="v2.4.0"></a>
 ## [v2.4.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.3.0...v2.4.0) - 2023-01-18
 
