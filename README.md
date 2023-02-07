@@ -306,7 +306,7 @@ Generated shape:
 <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person> a rdfs:Class.
 ```
 
-#### Vocabuary Predicate Domain Handler
+#### Vocabulary Predicate Domain Handler
 
 Generates vocabulary information about the domain of a specific predicate.
 
@@ -326,6 +326,30 @@ Generated shape:
 ```turtle
 <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP> rdfs:domain
 <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment>.
+```
+
+#### Posts Multiply Handler
+
+Multiply the number of posts by a given amount.
+
+```json
+{
+  "handlers": [
+     {
+       "@type": "EnhancementHandlerPostsMultiply",
+       "factor": 10
+    }
+  ]
+}
+```
+
+Generated shape:
+```turtle
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000618475290624000001>
+    a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post>;
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/id> "618475290624000001";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/browserUsed> "Firefox";
+    <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/content> "About Rupert Murdoch ... COPY 1";
 ```
 
 ### Parameter Emitters

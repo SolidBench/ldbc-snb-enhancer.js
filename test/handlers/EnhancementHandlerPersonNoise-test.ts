@@ -33,6 +33,7 @@ describe('EnhancementHandlerPersonNoise', () => {
       peopleKnownBy: {},
       peopleKnows: {},
       posts: [],
+      postsDetails: {},
       comments: [],
       cities: [],
       predicates: [],

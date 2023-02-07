@@ -5,6 +5,7 @@ export * from './lib/handlers/EnhancementHandlerPersonNoise';
 export * from './lib/handlers/EnhancementHandlerPostAuthors';
 export * from './lib/handlers/EnhancementHandlerPostContents';
 export * from './lib/handlers/EnhancementHandlerPosts';
+export * from './lib/handlers/EnhancementHandlerPostsMultiply';
 export * from './lib/handlers/EnhancementHandlerVocabulary';
 export * from './lib/handlers/EnhancementHandlerVocabularyPredicateDomain';
 export * from './lib/handlers/IEnhancementContext';

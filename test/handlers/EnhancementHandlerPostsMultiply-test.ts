@@ -2,7 +2,7 @@ import { PassThrough } from 'stream';
 import { DataFactory } from 'rdf-data-factory';
 import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
-import { EnhancementHandlerPostAuthors } from '../../lib/handlers/EnhancementHandlerPostAuthors';
+import { EnhancementHandlerPostsMultiply } from '../../lib/handlers/EnhancementHandlerPostsMultiply';
 import type { IEnhancementContext } from '../../lib/handlers/IEnhancementContext';
 import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
@@ -10,14 +10,14 @@ import 'jest-rdf';
 const arrayifyStream = require('arrayify-stream');
 const DF = new DataFactory();
 
-describe('EnhancementHandlerPostAuthors', () => {
-  let handler: EnhancementHandlerPostAuthors;
+describe('EnhancementHandlerPostsMultiply', () => {
+  let handler: EnhancementHandlerPostsMultiply;
   let stream: PassThrough;
   let rdfObjectLoader: RdfObjectLoader;
   let context: IEnhancementContext;
 
   beforeEach(async() => {
-    handler = new EnhancementHandlerPostAuthors(0.5);
+    handler = new EnhancementHandlerPostsMultiply(2);
     stream = new PassThrough({ objectMode: true });
     rdfObjectLoader = new RdfObjectLoader({ context: Enhancer.CONTEXT_LDBC_SNB });
     context = {
@@ -28,8 +28,6 @@ describe('EnhancementHandlerPostAuthors', () => {
         DF.namedNode('ex:per2'),
         DF.namedNode('ex:per3'),
         DF.namedNode('ex:per4'),
-        DF.namedNode('ex:per5'),
-        DF.namedNode('ex:per6'),
       ],
       peopleLocatedInCities: {},
       peopleKnownBy: {},
@@ -39,10 +37,19 @@ describe('EnhancementHandlerPostAuthors', () => {
         DF.namedNode('ex:post002'),
         DF.namedNode('ex:post003'),
         DF.namedNode('ex:post004'),
-        DF.namedNode('ex:post005'),
-        DF.namedNode('ex:post006'),
       ],
-      postsDetails: {},
+      postsDetails: {
+        'ex:post001': [
+          DF.quad(DF.namedNode(''), DF.namedNode('ex:id'), DF.literal('001')),
+          DF.quad(DF.namedNode(''), DF.namedNode('ex:content'), DF.literal('content1')),
+          DF.quad(DF.namedNode(''), DF.namedNode('ex:other'), DF.literal('other')),
+        ],
+        'ex:post002': [
+          DF.quad(DF.namedNode(''), DF.namedNode('ex:id'), DF.literal('002')),
+          DF.quad(DF.namedNode(''), DF.namedNode('ex:content'), DF.literal('content2')),
+          DF.quad(DF.namedNode(''), DF.namedNode('ex:other'), DF.literal('other')),
+        ],
+      },
       comments: [],
       cities: [],
       predicates: [],
@@ -53,7 +60,7 @@ describe('EnhancementHandlerPostAuthors', () => {
 
   describe('generate', () => {
     it('should handle for no posts', async() => {
-      context = { ...context, posts: []};
+      context = { ...context, postsDetails: {}};
       await handler.generate(stream, context);
       stream.end();
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResource({}).toQuads());
@@ -64,16 +71,28 @@ describe('EnhancementHandlerPostAuthors', () => {
       stream.end();
       expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
-          '@id': `ex:post001`,
-          'snvoc:id': '"1"',
-          'snvoc:hasCreator': `ex:per2`,
-          'snvoc:hasMaliciousCreator': 'ex:per3',
+          '@id': `ex:post001000000`,
+          'ex:id': '"001000000"',
+          'ex:content': '"content1 COPY 0"',
+          'ex:other': '"other"',
         },
         {
-          '@id': `ex:post004`,
-          'snvoc:id': '"4"',
-          'snvoc:hasCreator': `ex:per5`,
-          'snvoc:hasMaliciousCreator': 'ex:per6',
+          '@id': `ex:post001000001`,
+          'ex:id': '"001000001"',
+          'ex:content': '"content1 COPY 1"',
+          'ex:other': '"other"',
+        },
+        {
+          '@id': `ex:post002000000`,
+          'ex:id': '"002000000"',
+          'ex:content': '"content2 COPY 0"',
+          'ex:other': '"other"',
+        },
+        {
+          '@id': `ex:post002000001`,
+          'ex:id': '"002000001"',
+          'ex:content': '"content2 COPY 1"',
+          'ex:other': '"other"',
         },
       ]).flatMap(resource => resource.toQuads()));
     });

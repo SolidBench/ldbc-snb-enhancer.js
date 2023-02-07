@@ -29,6 +29,7 @@ describe('EnhancementHandlerVocabularyPredicateDomain', () => {
       peopleKnownBy: {},
       peopleKnows: {},
       posts: [],
+      postsDetails: {},
       comments: [],
       cities: [],
       predicates: [],

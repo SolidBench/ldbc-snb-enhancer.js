@@ -28,6 +28,7 @@ describe('EnhancementHandlerVocabulary', () => {
       peopleKnownBy: {},
       peopleKnows: {},
       posts: [],
+      postsDetails: {},
       comments: [],
       cities: [],
       predicates: [

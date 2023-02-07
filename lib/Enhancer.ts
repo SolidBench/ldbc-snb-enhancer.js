@@ -74,7 +74,7 @@ export class Enhancer {
       personClasses,
     } = await this.extractPeople();
     this.logger?.log('Reading background data: activities');
-    const { posts, comments, activityClasses } = await this.extractActivities();
+    const { posts, postsDetails, comments, activityClasses } = await this.extractActivities();
     this.logger?.log('Reading background data: cities');
     const cities = await this.extractCities();
     const classes: RDF.NamedNode[] = personClasses.concat(activityClasses);
@@ -86,6 +86,7 @@ export class Enhancer {
       peopleKnows,
       peopleKnownBy,
       posts,
+      postsDetails,
       comments,
       cities,
       predicates,
@@ -196,11 +197,13 @@ export class Enhancer {
 
   public extractActivities(): Promise<{
     posts: RDF.NamedNode[];
+    postsDetails: Record<string, RDF.Quad[]>;
     comments: RDF.NamedNode[];
     activityClasses: RDF.NamedNode[];
   }> {
     return new Promise<{
       posts: RDF.NamedNode[];
+      postsDetails: Record<string, RDF.Quad[]>;
       comments: RDF.NamedNode[];
       activityClasses: RDF.NamedNode[];
     }>((resolve, reject) => {
@@ -210,6 +213,7 @@ export class Enhancer {
       const termComment = this.rdfObjectLoader.createCompactedResource('snvoc:Comment').term;
 
       const posts: RDF.NamedNode[] = [];
+      const postsDetails: Record<string, RDF.Quad[]> = {};
       const comments: RDF.NamedNode[] = [];
       const stream = rdfParser.parse(fs.createReadStream(this.activitiesPath), { path: this.activitiesPath });
       stream.on('error', reject);
@@ -220,17 +224,29 @@ export class Enhancer {
             posts.push(quad.subject);
             // Emit parameters
             this.parameterEmitterPosts?.emitRow([ quad.subject.value ]);
+            postsDetails[quad.subject.value] = [];
           }
           if (quad.object.equals(termComment)) {
             comments.push(quad.subject);
             this.parameterEmitterComments?.emitRow([ quad.subject.value ]);
           }
         }
+        if (quad.subject.termType === 'NamedNode') {
+          const postDetails = postsDetails[quad.subject.value];
+          if (postDetails) {
+            postDetails.push(quad);
+          }
+        }
       });
       stream.on('end', () => {
         this.parameterEmitterPosts?.flush();
         this.parameterEmitterComments?.flush();
-        resolve({ posts, comments, activityClasses: [ DF.namedNode(termPost.value), DF.namedNode(termComment.value) ]});
+        resolve({
+          posts,
+          postsDetails,
+          comments,
+          activityClasses: [ DF.namedNode(termPost.value), DF.namedNode(termComment.value) ],
+        });
       });
     });
   }

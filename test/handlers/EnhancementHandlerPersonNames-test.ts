@@ -53,6 +53,7 @@ describe('EnhancementHandlerPersonNames', () => {
         ],
       },
       posts: [],
+      postsDetails: {},
       comments: [],
       cities: [
         DF.namedNode('ex:cit1'),

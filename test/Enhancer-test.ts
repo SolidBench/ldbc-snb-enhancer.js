@@ -106,6 +106,10 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        postsDetails: {
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000000000000003': expect.anything(),
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000618475290624': expect.anything(),
+        },
         comments: [],
         cities: [
           expect.anything(),
@@ -157,6 +161,10 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
           expect.anything(),
           expect.anything(),
         ],
+        postsDetails: {
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000000000000003': expect.anything(),
+          'http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000618475290624': expect.anything(),
+        },
         comments: [],
         cities: [
           expect.anything(),
@@ -281,6 +289,7 @@ sn:bla rdf:type snvoc:other .`;
     it('should handle a dummy file', async() => {
       expect(await enhancer.extractActivities()).toEqual({
         posts: [],
+        postsDetails: {},
         comments: [],
         activityClasses: [
           DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post'),
@@ -293,6 +302,7 @@ sn:bla rdf:type snvoc:other .`;
       files['source-activities.ttl'] = '';
       expect(await enhancer.extractActivities()).toEqual({
         posts: [],
+        postsDetails: {},
         comments: [],
         activityClasses: [
           DF.namedNode('http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Post'),

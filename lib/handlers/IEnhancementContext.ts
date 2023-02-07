@@ -36,6 +36,10 @@ export interface IEnhancementContext {
    */
   posts: RDF.NamedNode[];
   /**
+   * All quads related to a post.
+   */
+  postsDetails: Record<string, RDF.Quad[]>;
+  /**
    * An array of IRIs of all comments in the dataset.
    */
   comments: RDF.NamedNode[];
