@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.5.1"></a>
+## [v2.5.1](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.5.0...v2.5.1) - 2023-02-08
+
+### Fixed
+* [Fix backpressure not being maintained](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/d33f4c60343bac20da997169b61863dc04b618a4)
+
 <a name="v2.5.0"></a>
 ## [v2.5.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.4.0...v2.5.0) - 2023-02-07
 
