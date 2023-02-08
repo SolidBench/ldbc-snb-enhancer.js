@@ -1,6 +1,7 @@
 import type { Writable } from 'stream';
 import type * as RDF from '@rdfjs/types';
 import { DataFactory } from 'rdf-data-factory';
+import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
 import type { IEnhancementHandler } from './IEnhancementHandler';
 
@@ -30,7 +31,7 @@ export class EnhancementHandlerPostsMultiply implements IEnhancementHandler {
           } else if (quad.predicate.value.endsWith('content')) {
             value = DF.literal(`${value.value} COPY ${i}`);
           }
-          writeStream.write(DF.quad(
+          await writeSafe(writeStream, DF.quad(
             subjectThis,
             quad.predicate,
             value,

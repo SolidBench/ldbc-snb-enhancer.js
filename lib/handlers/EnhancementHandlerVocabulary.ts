@@ -1,6 +1,7 @@
 import type { Writable } from 'stream';
 import type * as RDF from '@rdfjs/types';
 import { DataFactory } from 'rdf-data-factory';
+import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
 import type { IEnhancementHandler } from './IEnhancementHandler';
 
@@ -17,11 +18,11 @@ export class EnhancementHandlerVocabulary implements IEnhancementHandler {
 
     // Write predicates
     for (const predicate of context.predicates) {
-      writeStream.write(DF.quad(predicate, rdf_type, rdfs_property));
+      await writeSafe(writeStream, DF.quad(predicate, rdf_type, rdfs_property));
     }
     // Write classes
     for (const clazz of context.classes) {
-      writeStream.write(DF.quad(clazz, rdf_type, rdfs_class));
+      await writeSafe(writeStream, DF.quad(clazz, rdf_type, rdfs_class));
     }
   }
 }

@@ -1,6 +1,7 @@
 import type { Writable } from 'stream';
 import type * as RDF from '@rdfjs/types';
 import { DataFactory } from 'rdf-data-factory';
+import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
 import type { IEnhancementHandler } from './IEnhancementHandler';
 
@@ -27,6 +28,6 @@ export class EnhancementHandlerVocabularyPredicateDomain implements IEnhancement
     const rdfs_domain = DF.namedNode('http://www.w3.org/2000/01/rdf-schema#domain');
     const rdfs_class = DF.namedNode(this.classIRI);
 
-    writeStream.write(DF.quad(rdf_predicate, rdfs_domain, rdfs_class));
+    await writeSafe(writeStream, DF.quad(rdf_predicate, rdfs_domain, rdfs_class));
   }
 }

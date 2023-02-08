@@ -18,7 +18,7 @@ describe('EnhancementHandlerComments', () => {
 
   beforeEach(async() => {
     handler = new EnhancementHandlerComments(0.5);
-    stream = new PassThrough({ objectMode: true });
+    stream = new PassThrough({ objectMode: true, highWaterMark: 1024 });
     rdfObjectLoader = new RdfObjectLoader({ context: Enhancer.CONTEXT_LDBC_SNB });
     context = {
       rdfObjectLoader,

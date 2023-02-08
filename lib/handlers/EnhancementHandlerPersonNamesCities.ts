@@ -1,6 +1,7 @@
 import type { Writable } from 'stream';
 import type * as RDF from '@rdfjs/types';
 import type { IParameterEmitter } from '../parameters/IParameterEmitter';
+import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
 import type { IEnhancementHandler } from './IEnhancementHandler';
 
@@ -43,7 +44,7 @@ export class EnhancementHandlerPersonNamesCities implements IEnhancementHandler 
         'snvoc:hasMaliciousCreator': cityMalicious,
       });
       for (const quad of resource.toQuads(undefined, undefined, { [cityMalicious.value]: true })) {
-        writeStream.write(quad);
+        await writeSafe(writeStream, quad);
       }
 
       // Emit parameters

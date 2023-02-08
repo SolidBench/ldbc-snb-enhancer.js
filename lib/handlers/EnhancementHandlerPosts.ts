@@ -1,5 +1,6 @@
 import type { Writable } from 'stream';
 import type * as RDF from '@rdfjs/types';
+import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
 import type { IEnhancementHandler } from './IEnhancementHandler';
 
@@ -39,7 +40,7 @@ export class EnhancementHandlerPosts implements IEnhancementHandler {
         'snvoc:hasTag': 'http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Georges_Bizet',
       });
       for (const quad of resource.toQuads()) {
-        writeStream.write(quad);
+        await writeSafe(writeStream, quad);
       }
     }
   }
