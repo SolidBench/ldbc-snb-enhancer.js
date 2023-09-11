@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.5.2"></a>
+## [v2.5.2](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.5.1...v2.5.2) - 2023-09-11
+
+### Fixed
+* [Bump rdf-parse and rdf-serialize to support latest Node versions](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/61dc517e0f1dc5a8d6a798cf914145823924b369)
+
 <a name="v2.5.1"></a>
 ## [v2.5.1](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.5.0...v2.5.1) - 2023-02-08
 
