@@ -77,7 +77,7 @@ export class Enhancer {
     const { posts, postsDetails, comments, activityClasses } = await this.extractActivities();
     this.logger?.log('Reading background data: cities');
     const cities = await this.extractCities();
-    const classes: RDF.NamedNode[] = personClasses.concat(activityClasses);
+    const classes: RDF.NamedNode[] = [ ...personClasses, ...activityClasses ];
     const context: IEnhancementContext = {
       rdfObjectLoader: this.rdfObjectLoader,
       dataSelector: this.dataSelector,
