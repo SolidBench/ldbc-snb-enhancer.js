@@ -1,4 +1,4 @@
-import { PassThrough } from 'stream';
+import { PassThrough } from 'node:stream';
 import { DataFactory } from 'rdf-data-factory';
 import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
@@ -9,6 +9,7 @@ import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
 
 const arrayifyStream = require('arrayify-stream');
+
 const DF = new DataFactory();
 
 describe('EnhancementHandlerPersonNamesCities', () => {
@@ -72,13 +73,15 @@ describe('EnhancementHandlerPersonNamesCities', () => {
       context = { ...context, people: []};
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResource({}).toQuads());
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(
+        rdfObjectLoader.createCompactedResource({}).toQuads(),
+      );
     });
 
     it('should handle', async() => {
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:per1',
           type: 'snvoc:Person',
@@ -101,7 +104,7 @@ describe('EnhancementHandlerPersonNamesCities', () => {
 
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:per2',
           type: 'snvoc:Person',
@@ -132,7 +135,7 @@ describe('EnhancementHandlerPersonNamesCities', () => {
         expect(emitter.emitHeader).toHaveBeenCalledWith([ 'person', 'cityMalicious' ]);
         expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per1', 'ex:cit1' ]);
         expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per2', 'ex:cit2' ]);
-        expect(emitter.flush).toHaveBeenCalled();
+        expect(emitter.flush).toHaveBeenCalledTimes(1);
       });
     });
   });

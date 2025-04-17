@@ -1,4 +1,4 @@
-import type { Writable } from 'stream';
+import type { Writable } from 'node:stream';
 import type * as RDF from '@rdfjs/types';
 import type { IParameterEmitter } from '../parameters/IParameterEmitter';
 import { writeSafe } from './EnhancementHandlerUtils';
@@ -37,11 +37,13 @@ export class EnhancementHandlerPersonNamesCities implements IEnhancementHandler 
 
       // Create resource
       const resource = context.rdfObjectLoader.createCompactedResource({
+        /* eslint-disable ts/naming-convention */
         '@id': person.value,
         type: 'snvoc:Person',
         'snvoc:firstName': '"Zulma"',
         'snvoc:lastName': '"Tulma"',
         'snvoc:hasMaliciousCreator': cityMalicious,
+        /* eslint-enable ts/naming-convention */
       });
       for (const quad of resource.toQuads(undefined, undefined, { [cityMalicious.value]: true })) {
         await writeSafe(writeStream, quad);

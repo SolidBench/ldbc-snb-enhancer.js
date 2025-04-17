@@ -1,4 +1,4 @@
-import { Readable, PassThrough } from 'stream';
+import { Readable, PassThrough } from 'node:stream';
 import { DataFactory } from 'rdf-data-factory';
 import 'jest-rdf';
 import { Enhancer } from '../lib/Enhancer';
@@ -7,6 +7,7 @@ import type { IParameterEmitter } from '../lib/parameters/IParameterEmitter';
 import { DataSelectorSequential } from './selector/DataSelectorSequential';
 
 const streamifyString = require('streamify-string');
+
 const DF = new DataFactory();
 
 const files: Record<string, string> = {};
@@ -16,7 +17,7 @@ const writeStream = {
   emit: jest.fn(),
   end: jest.fn(),
 };
-jest.mock('fs', () => ({
+jest.mock('node:fs', () => ({
   createReadStream(filePath: string) {
     if (filePath in files) {
       return streamifyString(files[filePath]);
@@ -27,7 +28,7 @@ jest.mock('fs', () => ({
     };
     return ret;
   },
-  createWriteStream(filePath: string) {
+  createWriteStream(_filePath: string) {
     return writeStream;
   },
 }));
@@ -193,7 +194,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
     });
 
     it('should handle a dummy file', async() => {
-      expect(await enhancer.extractPeople()).toEqual({
+      await expect(enhancer.extractPeople()).resolves.toEqual({
         people: [],
         peopleLocatedInCities: {},
         peopleKnownBy: {},
@@ -207,7 +208,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
 
     it('should handle an empty file', async() => {
       files['source-persons.ttl'] = '';
-      expect(await enhancer.extractPeople()).toEqual({
+      await expect(enhancer.extractPeople()).resolves.toEqual({
         people: [],
         peopleLocatedInCities: {},
         peopleKnownBy: {},
@@ -219,7 +220,7 @@ sn:post00000000000000000003 rdf:type snvoc:Post .`;
 
     it('should reject on an erroring stream', async() => {
       delete files['source-persons.ttl'];
-      await expect(enhancer.extractPeople()).rejects.toThrow();
+      await expect(enhancer.extractPeople()).rejects.toThrow('Unknown file in Enhancer');
     });
 
     it('should handle a valid file', async() => {
@@ -287,7 +288,7 @@ sn:bla rdf:type snvoc:other .`;
     });
 
     it('should handle a dummy file', async() => {
-      expect(await enhancer.extractActivities()).toEqual({
+      await expect(enhancer.extractActivities()).resolves.toEqual({
         posts: [],
         postsDetails: {},
         comments: [],
@@ -300,7 +301,7 @@ sn:bla rdf:type snvoc:other .`;
 
     it('should handle an empty file', async() => {
       files['source-activities.ttl'] = '';
-      expect(await enhancer.extractActivities()).toEqual({
+      await expect(enhancer.extractActivities()).resolves.toEqual({
         posts: [],
         postsDetails: {},
         comments: [],
@@ -313,7 +314,7 @@ sn:bla rdf:type snvoc:other .`;
 
     it('should reject on an erroring stream', async() => {
       delete files['source-activities.ttl'];
-      await expect(enhancer.extractActivities()).rejects.toThrow();
+      await expect(enhancer.extractActivities()).rejects.toThrow('Unknown file in Enhancer');
     });
 
     it('should handle a valid file', async() => {
@@ -360,17 +361,17 @@ sn:comm00000000000000000003
     });
 
     it('should handle a dummy file', async() => {
-      expect(await enhancer.extractCities()).toEqual([]);
+      await expect(enhancer.extractCities()).resolves.toEqual([]);
     });
 
     it('should handle an empty file', async() => {
       files['source-static.ttl'] = '';
-      expect(await enhancer.extractCities()).toEqual([]);
+      await expect(enhancer.extractCities()).resolves.toEqual([]);
     });
 
     it('should reject on an erroring stream', async() => {
       delete files['source-static.ttl'];
-      await expect(enhancer.extractCities()).rejects.toThrow();
+      await expect(enhancer.extractCities()).rejects.toThrow('Unknown file in Enhancer');
     });
 
     it('should handle a valid file', async() => {
@@ -386,7 +387,7 @@ sn:comm00000000000000000003
 <http://dbpedia.org/resource/Rewari> snvoc:id "112"^^xsd:int .
 <http://dbpedia.org/resource/Rewari> snvoc:isPartOf <http://dbpedia.org/resource/India> .
 sn:bla rdf:type snvoc:other .`;
-      expect(await enhancer.extractCities()).toEqualRdfTermArray([
+      await expect(enhancer.extractCities()).resolves.toEqualRdfTermArray([
         DF.namedNode('http://dbpedia.org/resource/Pondicherry'),
         DF.namedNode('http://dbpedia.org/resource/Rewari'),
       ]);
@@ -468,7 +469,7 @@ sn:comm00000000000000000003
         expect(emitterPosts.emitRow).toHaveBeenCalledWith([
           'http://www.ldbc.eu/ldbc_socialnet/1.0/data/post00000000000000000003',
         ]);
-        expect(emitterPosts.flush).toHaveBeenCalled();
+        expect(emitterPosts.flush).toHaveBeenCalledTimes(1);
 
         expect(emitterComments.emitHeader).toHaveBeenCalledWith([ 'comment' ]);
         expect(emitterComments.emitRow).toHaveBeenCalledWith([
@@ -477,7 +478,7 @@ sn:comm00000000000000000003
         expect(emitterComments.emitRow).toHaveBeenCalledWith([
           'http://www.ldbc.eu/ldbc_socialnet/1.0/data/comm00000000000000000003',
         ]);
-        expect(emitterComments.flush).toHaveBeenCalled();
+        expect(emitterComments.flush).toHaveBeenCalledTimes(1);
       });
     });
   });

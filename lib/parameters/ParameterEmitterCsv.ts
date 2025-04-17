@@ -1,5 +1,5 @@
-import type { WriteStream } from 'fs';
-import * as fs from 'fs';
+import type { WriteStream } from 'node:fs';
+import * as fs from 'node:fs';
 import type { IParameterEmitter } from './IParameterEmitter';
 
 /**

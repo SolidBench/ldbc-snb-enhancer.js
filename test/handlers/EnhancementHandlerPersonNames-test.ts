@@ -1,4 +1,4 @@
-import { PassThrough } from 'stream';
+import { PassThrough } from 'node:stream';
 import { DataFactory } from 'rdf-data-factory';
 import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
@@ -9,6 +9,7 @@ import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
 
 const arrayifyStream = require('arrayify-stream');
+
 const DF = new DataFactory();
 
 describe('EnhancementHandlerPersonNames', () => {
@@ -72,13 +73,15 @@ describe('EnhancementHandlerPersonNames', () => {
       context = { ...context, people: []};
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResource({}).toQuads());
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(
+        rdfObjectLoader.createCompactedResource({}).toQuads(),
+      );
     });
 
     it('should handle', async() => {
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:per1',
           type: 'snvoc:Person',
@@ -100,7 +103,7 @@ describe('EnhancementHandlerPersonNames', () => {
       context.peopleKnownBy = {};
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
         .flatMap(resource => resource.toQuads()));
     });
 
@@ -108,7 +111,7 @@ describe('EnhancementHandlerPersonNames', () => {
       context.peopleKnows = {};
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([])
         .flatMap(resource => resource.toQuads()));
     });
 
@@ -124,7 +127,7 @@ describe('EnhancementHandlerPersonNames', () => {
 
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:per4',
           type: 'snvoc:Person',
@@ -155,7 +158,7 @@ describe('EnhancementHandlerPersonNames', () => {
         expect(emitter.emitHeader).toHaveBeenCalledWith([ 'person', 'personMalicious', 'personCommonFriend' ]);
         expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per1', 'ex:per3', 'ex:per2' ]);
         expect(emitter.emitRow).toHaveBeenCalledWith([ 'ex:per4', 'ex:per6', 'ex:per5' ]);
-        expect(emitter.flush).toHaveBeenCalled();
+        expect(emitter.flush).toHaveBeenCalledTimes(1);
       });
     });
   });

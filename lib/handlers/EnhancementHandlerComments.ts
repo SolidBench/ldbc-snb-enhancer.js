@@ -1,4 +1,4 @@
-import type { Writable } from 'stream';
+import type { Writable } from 'node:stream';
 import type * as RDF from '@rdfjs/types';
 import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
@@ -26,6 +26,7 @@ export class EnhancementHandlerComments implements IEnhancementHandler {
       const personMalicious = context.dataSelector.selectArrayElement(context.people);
       const post = context.dataSelector.selectArrayElement(context.posts);
       const resource = context.rdfObjectLoader.createCompactedResource({
+        /* eslint-disable ts/naming-convention */
         '@id': `sn:comment-fake${i}`,
         type: 'snvoc:Comment',
         'snvoc:id': i,
@@ -40,6 +41,7 @@ export class EnhancementHandlerComments implements IEnhancementHandler {
         'snvoc:language': '"en"',
         'snvoc:locatedIn': 'http://dbpedia.org/resource/Belgium',
         'snvoc:hasTag': 'http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Georges_Bizet',
+        /* eslint-enable ts/naming-convention */
       });
       for (const quad of resource.toQuads()) {
         await writeSafe(writeStream, quad);

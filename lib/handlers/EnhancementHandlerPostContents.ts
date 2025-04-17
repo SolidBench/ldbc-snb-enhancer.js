@@ -1,4 +1,4 @@
-import type { Writable } from 'stream';
+import type { Writable } from 'node:stream';
 import type * as RDF from '@rdfjs/types';
 import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
@@ -25,10 +25,12 @@ export class EnhancementHandlerPostContents implements IEnhancementHandler {
       const post = context.dataSelector.selectArrayElement(context.posts);
       const personMalicious = context.dataSelector.selectArrayElement(context.people);
       const resource = context.rdfObjectLoader.createCompactedResource({
+        /* eslint-disable ts/naming-convention */
         '@id': post.value,
         'snvoc:id': Number.parseInt(post.value.slice(post.value.lastIndexOf('post') + 4), 10),
         'snvoc:content': '"Tomatoes are blue"',
         'snvoc:hasMaliciousCreator': personMalicious,
+        /* eslint-enable ts/naming-convention */
       });
       for (const quad of resource.toQuads()) {
         await writeSafe(writeStream, quad);

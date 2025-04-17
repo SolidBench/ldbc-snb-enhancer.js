@@ -1,8 +1,9 @@
-import * as fs from 'fs';
-import type { Writable } from 'stream';
-import { PassThrough } from 'stream';
+import * as fs from 'node:fs';
+import type { Writable } from 'node:stream';
+import { PassThrough } from 'node:stream';
 import type * as RDF from '@rdfjs/types';
 import { DataFactory } from 'rdf-data-factory';
+import type { IRdfClassLoaderArgs } from 'rdf-object';
 import { RdfObjectLoader } from 'rdf-object';
 import { rdfParser } from 'rdf-parse';
 import { rdfSerializer } from 'rdf-serialize';
@@ -18,7 +19,8 @@ const DF = new DataFactory();
  * Enhances a given dataset.
  */
 export class Enhancer {
-  public static readonly CONTEXT_LDBC_SNB = require('./context-ldbc-snb.json');
+  // eslint-disable-next-line ts/no-var-requires, ts/no-require-imports, import/extensions, ts/naming-convention
+  public static readonly CONTEXT_LDBC_SNB = <IRdfClassLoaderArgs>require('./context-ldbc-snb.json');
 
   private readonly personsPath: string;
   private readonly activitiesPath: string;
@@ -38,6 +40,7 @@ export class Enhancer {
     this.staticPath = options.staticPath;
     this.destinationPathData = options.destinationPathData;
     this.dataSelector = options.dataSelector;
+    // eslint-disable-next-line ts/prefer-nullish-coalescing
     this.handlers = options.handlers || [];
     this.logger = options.logger;
     this.parameterEmitterPosts = options.parameterEmitterPosts;

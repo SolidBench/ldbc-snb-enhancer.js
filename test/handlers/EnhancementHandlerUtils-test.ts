@@ -1,4 +1,4 @@
-import { PassThrough } from 'stream';
+import { PassThrough } from 'node:stream';
 import { DataFactory } from 'rdf-data-factory';
 import { writeSafe } from '../../lib/handlers/EnhancementHandlerUtils';
 
@@ -21,7 +21,7 @@ describe('EnhancementHandlerUtils', () => {
       const promise = writeSafe(stream, quad);
       stream.emit('drain');
       await promise;
-      expect(stream.once).toHaveBeenCalled();
+      expect(stream.once).toHaveBeenCalledTimes(1);
     });
   });
 });

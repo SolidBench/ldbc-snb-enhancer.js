@@ -1,4 +1,4 @@
-import type { Writable } from 'stream';
+import type { Writable } from 'node:stream';
 import type * as RDF from '@rdfjs/types';
 
 export async function writeSafe(writeStream: RDF.Stream & Writable, quad: RDF.BaseQuad): Promise<void> {
