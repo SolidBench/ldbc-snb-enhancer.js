@@ -1,4 +1,4 @@
-import type { Writable } from 'stream';
+import type { Writable } from 'node:stream';
 import type * as RDF from '@rdfjs/types';
 import { writeSafe } from './EnhancementHandlerUtils';
 import type { IEnhancementContext } from './IEnhancementContext';
@@ -28,10 +28,12 @@ export class EnhancementHandlerPersonNoise implements IEnhancementHandler {
 
       // Create resource
       const resource = context.rdfObjectLoader.createCompactedResource({
+        /* eslint-disable ts/naming-convention */
         '@id': `${person.value}-noise-${i}`,
         type: 'snvoc:Noise',
         'snvoc:noise': `"NOISE-${i}"`,
         'snvoc:hasCreator': person.value,
+        /* eslint-enable ts/naming-convention */
       });
       for (const quad of resource.toQuads(undefined, undefined, { [person.value]: true })) {
         await writeSafe(writeStream, quad);

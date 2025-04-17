@@ -1,4 +1,4 @@
-import type { Writable } from 'stream';
+import type { Writable } from 'node:stream';
 import type * as RDF from '@rdfjs/types';
 import { DataFactory } from 'rdf-data-factory';
 import { writeSafe } from './EnhancementHandlerUtils';
@@ -23,11 +23,12 @@ export class EnhancementHandlerVocabularyPredicateDomain implements IEnhancement
     this.predicateIRI = predicateIRI;
   }
 
+  // eslint-disable-next-line unused-imports/no-unused-vars
   public async generate(writeStream: RDF.Stream & Writable, context: IEnhancementContext): Promise<void> {
-    const rdf_predicate = DF.namedNode(this.predicateIRI);
-    const rdfs_domain = DF.namedNode('http://www.w3.org/2000/01/rdf-schema#domain');
-    const rdfs_class = DF.namedNode(this.classIRI);
+    const rdfPredicate = DF.namedNode(this.predicateIRI);
+    const rdfsDomain = DF.namedNode('http://www.w3.org/2000/01/rdf-schema#domain');
+    const rdfsClass = DF.namedNode(this.classIRI);
 
-    await writeSafe(writeStream, DF.quad(rdf_predicate, rdfs_domain, rdfs_class));
+    await writeSafe(writeStream, DF.quad(rdfPredicate, rdfsDomain, rdfsClass));
   }
 }

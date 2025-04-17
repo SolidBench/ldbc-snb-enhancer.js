@@ -104,7 +104,7 @@ Parameters:
 
 Generated shape:
 ```turtle
-<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471> a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person> 
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471> a <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Person>
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/firstName> "Zulma";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/lastName> "Tulma";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasMaliciousCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000032985348840411>.
@@ -161,7 +161,7 @@ Parameters:
 
 Generated shape:
 ```turtle
-<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471-noise-1> 
+<http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471-noise-1>
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/noise> "NOISE-1";
     <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/hasCreator> <http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers00000000000000000471>.
 ```
@@ -313,7 +313,7 @@ Generates vocabulary information about the domain of a specific predicate.
 ```json
 {
   "handlers": [
-     {
+    {
       "@type": "EnhancementHandlerVocabularyPredicateDomain",
       "classIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/Comment",
       "predicateIRI": "http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/locationIP"
@@ -335,9 +335,9 @@ Multiply the number of posts by a given amount.
 ```json
 {
   "handlers": [
-     {
-       "@type": "EnhancementHandlerPostsMultiply",
-       "factor": 10
+    {
+      "@type": "EnhancementHandlerPostsMultiply",
+      "factor": 10
     }
   ]
 }

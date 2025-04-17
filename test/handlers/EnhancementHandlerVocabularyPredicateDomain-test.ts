@@ -1,5 +1,4 @@
-import { PassThrough } from 'stream';
-import { DataFactory } from 'rdf-data-factory';
+import { PassThrough } from 'node:stream';
 import { RdfObjectLoader } from 'rdf-object';
 import { Enhancer } from '../../lib/Enhancer';
 import { EnhancementHandlerVocabularyPredicateDomain } from
@@ -9,7 +8,6 @@ import { DataSelectorSequential } from '../selector/DataSelectorSequential';
 import 'jest-rdf';
 
 const arrayifyStream = require('arrayify-stream');
-const DF = new DataFactory();
 
 describe('EnhancementHandlerVocabularyPredicateDomain', () => {
   let handler: EnhancementHandlerVocabularyPredicateDomain;
@@ -42,7 +40,7 @@ describe('EnhancementHandlerVocabularyPredicateDomain', () => {
     it('should handle', async() => {
       await handler.generate(stream, context);
       stream.end();
-      expect(await arrayifyStream(stream)).toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
+      await expect(arrayifyStream(stream)).resolves.toBeRdfIsomorphic(rdfObjectLoader.createCompactedResources([
         {
           '@id': 'ex:predicate',
           'rdfs:domain': 'ex:class',

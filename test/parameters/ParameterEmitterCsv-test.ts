@@ -1,15 +1,11 @@
-import { DataFactory } from 'rdf-data-factory';
 import { ParameterEmitterCsv } from '../../lib/parameters/ParameterEmitterCsv';
-
-const streamifyString = require('streamify-string');
-const DF = new DataFactory();
 
 const writeStream = {
   write: jest.fn(),
   end: jest.fn(),
 };
-jest.mock('fs', () => ({
-  createWriteStream(filePath: string) {
+jest.mock('node:fs', () => ({
+  createWriteStream(_filePath: string) {
     return writeStream;
   },
 }));
@@ -30,7 +26,7 @@ describe('ParameterEmitterCsv', () => {
     it('to throw when invoked twice', () => {
       emitter.emitHeader([ 'a', 'b' ]);
       expect(() => emitter.emitHeader([ 'a', 'b' ]))
-        .toThrowError('Attempted to emit header more than once.');
+        .toThrow('Attempted to emit header more than once.');
     });
   });
 
@@ -55,14 +51,14 @@ describe('ParameterEmitterCsv', () => {
 
     it('to throw when column length is different from header length', () => {
       expect(() => emitter.emitRow([ 'a1', 'b1', 'c1' ]))
-        .toThrowError('A column of length 3 was emitted, while length 2 is required.');
+        .toThrow('A column of length 3 was emitted, while length 2 is required.');
     });
   });
 
   describe('flush', () => {
     it('to end the stream', () => {
       emitter.flush();
-      expect(writeStream.end).toHaveBeenCalled();
+      expect(writeStream.end).toHaveBeenCalledTimes(1);
     });
   });
 });
