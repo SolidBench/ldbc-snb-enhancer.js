@@ -106,11 +106,11 @@
     "test": "jest ${1}",
     "test-watch": "jest ${1} --watch",
     "lint": "eslint . --ext .ts --cache",
-    "build": "npm run build:ts && npm run build:components",
+    "build": "yarn run build:ts && yarn run build:components",
     "build:components": "componentsjs-generator -s lib",
     "build:ts": "tsc",
-    "validate": "npm ls",
-    "prepare": "npm run build",
+    "validate": "yarn list",
+    "prepare": "yarn run build",
     "version": "manual-git-changelog onversion"
   }
 }
