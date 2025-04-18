@@ -1,6 +1,6 @@
 {
   "name": "ldbc-snb-enhancer",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "packageManager": "yarn@1.22.22",
   "description": "Generates auxiliary data based on an LDBC SNB dataset",
   "author": "Ruben Taelman <rubensworks@gmail.com>",

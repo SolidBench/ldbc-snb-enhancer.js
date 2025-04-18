@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.6.0"></a>
+## [v2.6.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.5.2...v2.6.0) - 2025-04-18
+
+### Changed
+* [Bump dependencies](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/72a6611f1afc77d14313721510de313f2e5ad37a)
+
 <a name="v2.5.2"></a>
 ## [v2.5.2](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.5.1...v2.5.2) - 2023-09-11
 
