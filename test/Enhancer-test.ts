@@ -1,7 +1,7 @@
 import { Readable, PassThrough } from 'node:stream';
 import { DataFactory } from 'rdf-data-factory';
 import 'jest-rdf';
-import { Enhancer } from '../lib/Enhancer';
+import { Enhancer, SimilarityConfig } from '../lib/Enhancer';
 import type { IEnhancementHandler } from '../lib/handlers/IEnhancementHandler';
 import type { IParameterEmitter } from '../lib/parameters/IParameterEmitter';
 import { TransformerReplaceIri } from '../lib/transformers/TransformerReplaceIri';
@@ -833,6 +833,56 @@ sn:comment1 snvoc:hasCreator sn:person2 .`;
           ],
         });
       });
+    });
+  });
+  describe('SimilarityConfig', () => {
+    let mockEmitterPeople: IParameterEmitter;
+    let mockEmitterPosts: IParameterEmitter;
+    let mockEmitterComments: IParameterEmitter;
+    let mockTransformer: TransformerReplaceIri;
+
+    beforeEach(() => {
+      // Create barebones mock objects that satisfy the TypeScript compiler
+      mockEmitterPeople = <IParameterEmitter> {};
+      mockEmitterPosts = <IParameterEmitter> {};
+      mockEmitterComments = <IParameterEmitter> {};
+      mockTransformer = <TransformerReplaceIri> {};
+    });
+
+    it('initializes correctly with only the required parameters', () => {
+      const config = new SimilarityConfig(
+        mockEmitterPeople,
+        mockEmitterPosts,
+        mockEmitterComments,
+      );
+
+      expect(config.parameterEmitterSimilaritiesPeople).toBe(mockEmitterPeople);
+      expect(config.parameterEmitterSimilaritiesPosts).toBe(mockEmitterPosts);
+      expect(config.parameterEmitterSimilaritiesComments).toBe(mockEmitterComments);
+
+      // Ensure optional parameters remain undefined when not provided
+      expect(config.maxSimilarities).toBeUndefined();
+      expect(config.personTransformer).toBeUndefined();
+    });
+
+    it('initializes correctly with all parameters provided', () => {
+      const maxSimilarities = 100;
+
+      const config = new SimilarityConfig(
+        mockEmitterPeople,
+        mockEmitterPosts,
+        mockEmitterComments,
+        maxSimilarities,
+        mockTransformer,
+      );
+
+      expect(config.parameterEmitterSimilaritiesPeople).toBe(mockEmitterPeople);
+      expect(config.parameterEmitterSimilaritiesPosts).toBe(mockEmitterPosts);
+      expect(config.parameterEmitterSimilaritiesComments).toBe(mockEmitterComments);
+
+      // Ensure optional parameters are properly assigned
+      expect(config.maxSimilarities).toBe(maxSimilarities);
+      expect(config.personTransformer).toBe(mockTransformer);
     });
   });
 });
