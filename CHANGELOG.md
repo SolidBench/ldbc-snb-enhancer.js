@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.7.1"></a>
+## [v2.7.1](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.7.0...v2.7.1) - 2026-05-09
+
+### Fixed
+* [Make similarity config truly optional in components file (#22)](https://github.com/SolidBench/ldbc-snb-enhancer.js/commit/2940db76f2b53bfb01a2773c39ee47a6f941bfda)
+
 <a name="v2.7.0"></a>
 ## [v2.7.0](https://github.com/SolidBench/ldbc-snb-enhancer.js/compare/v2.6.0...v2.7.0) - 2026-05-04
 
